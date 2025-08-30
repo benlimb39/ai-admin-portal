@@ -37,11 +37,13 @@ import {
   Cell
 } from 'recharts';
 import { useData } from '../../context/DataContext';
+import { useTheme } from '../../context/ThemeContext';
 
 const COLORS = ['#6366f1', '#10b981', '#f59e0b', '#ef4444'];
 
 const Dashboard: React.FC = () => {
   const { data, loading, error } = useData();
+  const { theme } = useTheme();
 
   if (loading) {
     return (
@@ -146,7 +148,7 @@ const Dashboard: React.FC = () => {
 
   return (
     <Box>
-      <Typography variant="h4" sx={{ mb: 3, fontWeight: 'bold', color: '#1f2937' }}>
+      <Typography variant="h4" sx={{ mb: 3, fontWeight: 'bold' }}>
         Dashboard Overview
       </Typography>
 
@@ -157,9 +159,10 @@ const Dashboard: React.FC = () => {
             key={index}
             sx={{
               height: '100%',
-              background: 'linear-gradient(135deg, #ffffff 0%, #f8fafc 100%)',
-              border: '1px solid #e2e8f0',
-              boxShadow: '0 1px 3px 0 rgba(0, 0, 0, 0.1)',
+              background: 'linear-gradient(135deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.02) 100%)',
+              border: '1px solid',
+              borderColor: 'divider',
+              backdropFilter: 'blur(10px)',
               '&:hover': {
                 boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)',
                 transform: 'translateY(-2px)',
@@ -170,10 +173,10 @@ const Dashboard: React.FC = () => {
             <CardContent>
               <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
                 <Box>
-                  <Typography variant="h4" sx={{ fontWeight: 'bold', color: '#1f2937', mb: 1 }}>
+                  <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 1 }}>
                     {metric.value}
                   </Typography>
-                  <Typography variant="body2" sx={{ color: '#6b7280', mb: 1 }}>
+                  <Typography variant="body2" sx={{ color: 'text.secondary', mb: 1 }}>
                     {metric.title}
                   </Typography>
                   <Chip
@@ -200,25 +203,27 @@ const Dashboard: React.FC = () => {
         {/* Monthly Growth Chart */}
         <Card
           sx={{
-            background: 'linear-gradient(135deg, #ffffff 0%, #f8fafc 100%)',
-            border: '1px solid #e2e8f0',
-            boxShadow: '0 1px 3px 0 rgba(0, 0, 0, 0.1)'
+            background: 'linear-gradient(135deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.02) 100%)',
+            border: '1px solid',
+            borderColor: 'divider',
+            backdropFilter: 'blur(10px)',
           }}
         >
           <CardContent>
-            <Typography variant="h6" sx={{ mb: 3, fontWeight: 'bold', color: '#1f2937' }}>
+            <Typography variant="h6" sx={{ mb: 3, fontWeight: 'bold' }}>
               Monthly Growth
             </Typography>
             <ResponsiveContainer width="100%" height={300}>
               <LineChart data={monthlyData}>
-                <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
-                <XAxis dataKey="month" stroke="#6b7280" />
-                <YAxis stroke="#6b7280" />
+                <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.1)" />
+                <XAxis dataKey="month" stroke="rgba(255,255,255,0.7)" />
+                <YAxis stroke="rgba(255,255,255,0.7)" />
                 <Tooltip
                   contentStyle={{
-                    backgroundColor: '#ffffff',
-                    border: '1px solid #e5e7eb',
-                    borderRadius: '8px'
+                    backgroundColor: 'rgba(0,0,0,0.8)',
+                    border: '1px solid rgba(255,255,255,0.1)',
+                    borderRadius: '8px',
+                    color: 'white'
                   }}
                 />
                 <Line
@@ -243,14 +248,15 @@ const Dashboard: React.FC = () => {
         {/* Reward Distribution */}
         <Card
           sx={{
-            background: 'linear-gradient(135deg, #ffffff 0%, #f8fafc 100%)',
-            border: '1px solid #e2e8f0',
-            boxShadow: '0 1px 3px 0 rgba(0, 0, 0, 0.1)',
+            background: 'linear-gradient(135deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.02) 100%)',
+            border: '1px solid',
+            borderColor: 'divider',
+            backdropFilter: 'blur(10px)',
             height: '100%'
           }}
         >
           <CardContent>
-            <Typography variant="h6" sx={{ mb: 3, fontWeight: 'bold', color: '#1f2937' }}>
+            <Typography variant="h6" sx={{ mb: 3, fontWeight: 'bold' }}>
               Reward Distribution
             </Typography>
             {rewardDistribution.length > 0 ? (
@@ -272,16 +278,17 @@ const Dashboard: React.FC = () => {
                   </Pie>
                   <Tooltip
                     contentStyle={{
-                      backgroundColor: '#ffffff',
-                      border: '1px solid #e5e7eb',
-                      borderRadius: '8px'
+                      backgroundColor: 'rgba(0,0,0,0.8)',
+                      border: '1px solid rgba(255,255,255,0.1)',
+                      borderRadius: '8px',
+                      color: 'white'
                     }}
                   />
                 </PieChart>
               </ResponsiveContainer>
             ) : (
               <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: 300 }}>
-                <Typography variant="body2" sx={{ color: '#6b7280' }}>
+                <Typography variant="body2" sx={{ color: 'text.secondary' }}>
                   No reward data available
                 </Typography>
               </Box>
@@ -295,91 +302,72 @@ const Dashboard: React.FC = () => {
         {/* Top Referrers */}
         <Card
           sx={{
-            background: 'linear-gradient(135deg, #ffffff 0%, #f8fafc 100%)',
-            border: '1px solid #e2e8f0',
-            boxShadow: '0 1px 3px 0 rgba(0, 0, 0, 0.1)'
+            background: 'linear-gradient(135deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.02) 100%)',
+            border: '1px solid',
+            borderColor: 'divider',
+            backdropFilter: 'blur(10px)',
           }}
         >
           <CardContent>
-            <Typography variant="h6" sx={{ mb: 3, fontWeight: 'bold', color: '#1f2937' }}>
+            <Typography variant="h6" sx={{ mb: 3, fontWeight: 'bold' }}>
               Top Referrers
             </Typography>
-            {topReferrers.length > 0 ? (
-              <List>
-                {topReferrers.map((referrer, index) => (
-                  <React.Fragment key={index}>
-                    <ListItem sx={{ px: 0 }}>
-                      <ListItemAvatar>
-                        <Avatar sx={{ bgcolor: COLORS[index % COLORS.length] }}>
-                          {referrer.name.charAt(0)}
-                        </Avatar>
-                      </ListItemAvatar>
-                      <ListItemText
-                        primary={referrer.name}
-                        secondary={`${referrer.referrals} referrals • $${referrer.rewards} earned`}
-                        primaryTypographyProps={{ fontWeight: 'medium' }}
-                        secondaryTypographyProps={{ color: '#6b7280' }}
-                      />
-                      <Chip
-                        label={`#${index + 1}`}
-                        size="small"
-                        sx={{
-                          backgroundColor: COLORS[index % COLORS.length],
-                          color: 'white',
-                          fontWeight: 'bold'
-                        }}
-                      />
-                    </ListItem>
-                    {index < topReferrers.length - 1 && <Divider />}
-                  </React.Fragment>
-                ))}
-              </List>
-            ) : (
-              <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: 200 }}>
-                <Typography variant="body2" sx={{ color: '#6b7280' }}>
-                  No referral data available
-                </Typography>
-              </Box>
-            )}
+            <List>
+              {topReferrers.map((referrer, index) => (
+                <React.Fragment key={index}>
+                  <ListItem sx={{ px: 0 }}>
+                    <ListItemAvatar>
+                      <Avatar sx={{ bgcolor: COLORS[index % COLORS.length] }}>
+                        {referrer.name.charAt(0)}
+                      </Avatar>
+                    </ListItemAvatar>
+                    <ListItemText
+                      primary={referrer.name}
+                      secondary={`${referrer.referrals} referrals • $${referrer.rewards.toLocaleString()} earned`}
+                      primaryTypographyProps={{ fontWeight: 'medium' }}
+                      secondaryTypographyProps={{ color: 'text.secondary' }}
+                    />
+                  </ListItem>
+                  {index < topReferrers.length - 1 && <Divider />}
+                </React.Fragment>
+              ))}
+            </List>
           </CardContent>
         </Card>
 
         {/* Recent Activity */}
         <Card
           sx={{
-            background: 'linear-gradient(135deg, #ffffff 0%, #f8fafc 100%)',
-            border: '1px solid #e2e8f0',
-            boxShadow: '0 1px 3px 0 rgba(0, 0, 0, 0.1)'
+            background: 'linear-gradient(135deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.02) 100%)',
+            border: '1px solid',
+            borderColor: 'divider',
+            backdropFilter: 'blur(10px)',
           }}
         >
           <CardContent>
-            <Typography variant="h6" sx={{ mb: 3, fontWeight: 'bold', color: '#1f2937' }}>
+            <Typography variant="h6" sx={{ mb: 3, fontWeight: 'bold' }}>
               Recent Activity
             </Typography>
-            <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-              {rewards.slice(0, 3).map((reward, index) => (
-                <Box key={index} sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-                  <Avatar sx={{ bgcolor: COLORS[index % COLORS.length], width: 32, height: 32 }}>
-                    <AttachMoney sx={{ fontSize: 16 }} />
-                  </Avatar>
-                  <Box>
-                    <Typography variant="body2" sx={{ fontWeight: 'medium' }}>
-                      {reward.type} reward processed
-                    </Typography>
-                    <Typography variant="caption" sx={{ color: '#6b7280' }}>
-                      ${reward.amount} paid to {reward.userName}
-                    </Typography>
-                  </Box>
-                </Box>
+            <List>
+              {referrals.slice(0, 5).map((referral, index) => (
+                <React.Fragment key={index}>
+                  <ListItem sx={{ px: 0 }}>
+                    <ListItemAvatar>
+                      <Avatar sx={{ bgcolor: referral.status === 'completed' ? '#10b981' : '#f59e0b' }}>
+                        {referral.referrerName.charAt(0)}
+                      </Avatar>
+                    </ListItemAvatar>
+                    <ListItemText
+                      primary={`${referral.referrerName} referred ${referral.referredName}`}
+                      secondary={`${referral.status} • $${referral.reward} reward`}
+                      primaryTypographyProps={{ fontWeight: 'medium' }}
+                      secondaryTypographyProps={{ color: 'text.secondary' }}
+                    />
+                  </ListItem>
+                  {index < Math.min(5, referrals.length) - 1 && <Divider />}
+                </React.Fragment>
               ))}
-              {rewards.length === 0 && (
-                <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: 200 }}>
-                  <Typography variant="body2" sx={{ color: '#6b7280' }}>
-                    No recent activity
-                  </Typography>
-                </Box>
-              )}
-            </Box>
+            </List>
           </CardContent>
         </Card>
       </Box>

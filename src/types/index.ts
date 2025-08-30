@@ -38,13 +38,13 @@ export interface DashboardMetrics {
   totalReferrals: number;
   totalRewards: number;
   monthlyGrowth: number;
-  conversionRate: number;
+  referralGrowth: number;
 }
 
 export interface ChartData {
   name: string;
   value: number;
-  date?: string;
+  color?: string;
 }
 
 export interface MonthlyData {
@@ -52,4 +52,28 @@ export interface MonthlyData {
   users: number;
   referrals: number;
   rewards: number;
+}
+
+export type ThemeMode = 'light' | 'dark' | 'darkGrey';
+
+export interface ThemeSettings {
+  mode: ThemeMode;
+  primaryColor: string;
+  accentColor: string;
+}
+
+export interface UserSettings {
+  theme: ThemeSettings;
+  notifications: {
+    email: boolean;
+    push: boolean;
+    sms: boolean;
+  };
+  display: {
+    compactMode: boolean;
+    showAvatars: boolean;
+    autoRefresh: boolean;
+  };
+  language: string;
+  timezone: string;
 }

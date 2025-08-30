@@ -1,126 +1,181 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   AppBar,
   Toolbar,
   Typography,
-  Box,
   IconButton,
   Badge,
   Avatar,
-  InputBase,
-  alpha
+  Box,
+  Menu,
+  MenuItem,
+  Tooltip,
+  useMediaQuery,
+  useTheme as useMuiTheme
 } from '@mui/material';
 import {
-  Search as SearchIcon,
+  Menu as MenuIcon,
   Notifications as NotificationsIcon,
   AccountCircle as AccountIcon,
-  Menu as MenuIcon
+  DarkMode as DarkModeIcon,
+  LightMode as LightModeIcon,
+  Brightness4 as DarkGreyIcon
 } from '@mui/icons-material';
-import { styled } from '@mui/material/styles';
-
-const drawerWidth = 280;
-
-const Search = styled('div')(({ theme }) => ({
-  position: 'relative',
-  borderRadius: theme.shape.borderRadius,
-  backgroundColor: alpha(theme.palette.common.white, 0.15),
-  '&:hover': {
-    backgroundColor: alpha(theme.palette.common.white, 0.25),
-  },
-  marginRight: theme.spacing(2),
-  marginLeft: 0,
-  width: '100%',
-  [theme.breakpoints.up('sm')]: {
-    marginLeft: theme.spacing(3),
-    width: 'auto',
-  },
-}));
-
-const SearchIconWrapper = styled('div')(({ theme }) => ({
-  padding: theme.spacing(0, 2),
-  height: '100%',
-  position: 'absolute',
-  pointerEvents: 'none',
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-}));
-
-const StyledInputBase = styled(InputBase)(({ theme }) => ({
-  color: 'inherit',
-  '& .MuiInputBase-input': {
-    padding: theme.spacing(1, 1, 1, 0),
-    paddingLeft: `calc(1em + ${theme.spacing(4)})`,
-    transition: theme.transitions.create('width'),
-    width: '100%',
-    [theme.breakpoints.up('md')]: {
-      width: '20ch',
-    },
-  },
-}));
+import { useTheme } from '../../context/ThemeContext';
+import { ThemeMode } from '../../types';
 
 interface HeaderProps {
   onMenuClick: () => void;
 }
 
 const Header: React.FC<HeaderProps> = ({ onMenuClick }) => {
+  const { themeMode, setThemeMode } = useTheme();
+  const muiTheme = useMuiTheme();
+  const isMobile = useMediaQuery(muiTheme.breakpoints.down('md'));
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+
+  const handleProfileMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleMenuClose = () => {
+    setAnchorEl(null);
+  };
+
+  const handleThemeChange = (mode: ThemeMode) => {
+    setThemeMode(mode);
+    handleMenuClose();
+  };
+
+  const getThemeIcon = () => {
+    switch (themeMode) {
+      case 'dark':
+        return <DarkModeIcon />;
+      case 'darkGrey':
+        return <DarkGreyIcon />;
+      default:
+        return <LightModeIcon />;
+    }
+  };
+
+  const getNextTheme = (): ThemeMode => {
+    switch (themeMode) {
+      case 'light':
+        return 'dark';
+      case 'dark':
+        return 'darkGrey';
+      case 'darkGrey':
+        return 'light';
+      default:
+        return 'light';
+    }
+  };
+
+  const handleThemeToggle = () => {
+    setThemeMode(getNextTheme());
+  };
+
   return (
     <AppBar
       position="fixed"
       sx={{
-        width: { sm: `calc(100% - ${drawerWidth}px)` },
-        ml: { sm: `${drawerWidth}px` },
-        backgroundColor: '#ffffff',
-        color: '#1f2937',
-        boxShadow: '0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06)',
-        borderBottom: '1px solid #e5e7eb'
+        zIndex: (theme) => theme.zIndex.drawer + 1,
+        backgroundColor: 'background.paper',
+        color: 'text.primary',
+        borderBottom: '1px solid',
+        borderColor: 'divider',
+        boxShadow: 'none',
       }}
     >
       <Toolbar>
-        <IconButton
-          color="inherit"
-          aria-label="open drawer"
-          edge="start"
-          onClick={onMenuClick}
-          sx={{ mr: 2, display: { sm: 'none' } }}
-        >
-          <MenuIcon />
-        </IconButton>
-
-        <Search>
-          <SearchIconWrapper>
-            <SearchIcon />
-          </SearchIconWrapper>
-          <StyledInputBase
-            placeholder="Search..."
-            inputProps={{ 'aria-label': 'search' }}
-          />
-        </Search>
-
-        <Box sx={{ flexGrow: 1 }} />
-
-        <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-          <IconButton color="inherit">
-            <Badge badgeContent={4} color="error">
-              <NotificationsIcon />
-            </Badge>
+        {isMobile && (
+          <IconButton
+            color="inherit"
+            aria-label="open drawer"
+            edge="start"
+            onClick={onMenuClick}
+            sx={{ mr: 2 }}
+          >
+            <MenuIcon />
           </IconButton>
+        )}
 
-          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-            <Avatar
-              src="https://i.pravatar.cc/150?img=32"
-              sx={{ width: 32, height: 32 }}
-            />
-            <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
-              <Typography variant="body2" sx={{ fontWeight: 'medium' }}>
-                Admin User
-              </Typography>
-              <Typography variant="caption" sx={{ color: '#6b7280' }}>
-                admin@company.com
-              </Typography>
-            </Box>
-          </Box>
+        <Typography variant="h6" component="div" sx={{ flexGrow: 1, fontWeight: 'bold' }}>
+          Admin Portal
+        </Typography>
+
+        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+          {/* Theme Toggle */}
+          <Tooltip title={`Switch to ${getNextTheme()} mode`}>
+            <IconButton
+              color="inherit"
+              onClick={handleThemeToggle}
+              sx={{ mr: 1 }}
+            >
+              {getThemeIcon()}
+            </IconButton>
+          </Tooltip>
+
+          {/* Notifications */}
+          <Tooltip title="Notifications">
+            <IconButton color="inherit">
+              <Badge badgeContent={4} color="error">
+                <NotificationsIcon />
+              </Badge>
+            </IconButton>
+          </Tooltip>
+
+          {/* Profile Menu */}
+          <Tooltip title="Account settings">
+            <IconButton
+              onClick={handleProfileMenuOpen}
+              color="inherit"
+            >
+              <Avatar
+                sx={{
+                  width: 32,
+                  height: 32,
+                  backgroundColor: 'primary.main',
+                  fontSize: '0.875rem',
+                }}
+              >
+                A
+              </Avatar>
+            </IconButton>
+          </Tooltip>
         </Box>
+
+        {/* Profile Menu */}
+        <Menu
+          anchorEl={anchorEl}
+          open={Boolean(anchorEl)}
+          onClose={handleMenuClose}
+          anchorOrigin={{
+            vertical: 'bottom',
+            horizontal: 'right',
+          }}
+          transformOrigin={{
+            vertical: 'top',
+            horizontal: 'right',
+          }}
+        >
+          <MenuItem onClick={handleMenuClose}>
+            <AccountIcon sx={{ mr: 2 }} />
+            Profile
+          </MenuItem>
+          <MenuItem onClick={() => handleThemeChange('light')}>
+            <LightModeIcon sx={{ mr: 2 }} />
+            Light Mode
+          </MenuItem>
+          <MenuItem onClick={() => handleThemeChange('dark')}>
+            <DarkModeIcon sx={{ mr: 2 }} />
+            Dark Mode
+          </MenuItem>
+          <MenuItem onClick={() => handleThemeChange('darkGrey')}>
+            <DarkGreyIcon sx={{ mr: 2 }} />
+            Dark Grey Mode
+          </MenuItem>
+        </Menu>
       </Toolbar>
     </AppBar>
   );

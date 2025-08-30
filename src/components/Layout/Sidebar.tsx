@@ -18,7 +18,6 @@ import {
   Settings as SettingsIcon
 } from '@mui/icons-material';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { useTheme } from '../../context/ThemeContext';
 
 interface SidebarProps {
   open: boolean;

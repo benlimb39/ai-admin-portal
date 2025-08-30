@@ -54,13 +54,12 @@ import {
   Close as CloseIcon
 } from '@mui/icons-material';
 import { useData } from '../../context/DataContext';
-import { useTheme } from '../../context/ThemeContext';
 
 const COLORS = ['#6366f1', '#10b981', '#f59e0b', '#ef4444'];
 
 const RewardBalanceReport: React.FC = () => {
   const { data, loading, error, refreshData } = useData();
-  const { theme } = useTheme();
+
   const [filterStatus, setFilterStatus] = useState<string>('all');
   const [filterType, setFilterType] = useState<string>('all');
   const [searchTerm, setSearchTerm] = useState<string>('');

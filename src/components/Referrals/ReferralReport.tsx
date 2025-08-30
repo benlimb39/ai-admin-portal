@@ -40,11 +40,9 @@ import {
   Close as CloseIcon
 } from '@mui/icons-material';
 import { useData } from '../../context/DataContext';
-import { useTheme } from '../../context/ThemeContext';
 
 const ReferralReport: React.FC = () => {
   const { data, loading, error, refreshData } = useData();
-  const { theme } = useTheme();
   const [filterStatus, setFilterStatus] = useState<string>('all');
   const [searchTerm, setSearchTerm] = useState<string>('');
   const [filterModel, setFilterModel] = useState<GridFilterModel>({

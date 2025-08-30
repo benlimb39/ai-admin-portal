@@ -100,13 +100,26 @@ const createAppTheme = (mode: ThemeMode): Theme => {
         main: colors.info,
       },
       divider: colors.border,
+      action: {
+        hover: colors.cardHover,
+        selected: colors.cardHover,
+      },
     },
     components: {
+      MuiCssBaseline: {
+        styleOverrides: {
+          body: {
+            backgroundColor: colors.background,
+            color: colors.text,
+          },
+        },
+      },
       MuiCard: {
         styleOverrides: {
           root: {
             backgroundColor: colors.card,
             border: `1px solid ${colors.border}`,
+            color: colors.text,
             '&:hover': {
               backgroundColor: colors.cardHover,
             },
@@ -118,6 +131,7 @@ const createAppTheme = (mode: ThemeMode): Theme => {
           root: {
             backgroundColor: colors.surface,
             border: `1px solid ${colors.border}`,
+            color: colors.text,
           },
         },
       },
@@ -126,6 +140,7 @@ const createAppTheme = (mode: ThemeMode): Theme => {
           root: {
             backgroundColor: colors.surface,
             borderBottom: `1px solid ${colors.border}`,
+            color: colors.text,
           },
         },
       },
@@ -134,6 +149,48 @@ const createAppTheme = (mode: ThemeMode): Theme => {
           paper: {
             backgroundColor: colors.surface,
             borderRight: `1px solid ${colors.border}`,
+            color: colors.text,
+          },
+        },
+      },
+      MuiListItemButton: {
+        styleOverrides: {
+          root: {
+            color: colors.text,
+            '&:hover': {
+              backgroundColor: colors.cardHover,
+            },
+            '&.Mui-selected': {
+              backgroundColor: colors.primary,
+              color: '#ffffff',
+              '&:hover': {
+                backgroundColor: colors.primary,
+              },
+            },
+          },
+        },
+      },
+      MuiListItemIcon: {
+        styleOverrides: {
+          root: {
+            color: 'inherit',
+          },
+        },
+      },
+      MuiListItemText: {
+        styleOverrides: {
+          primary: {
+            color: 'inherit',
+          },
+          secondary: {
+            color: colors.textSecondary,
+          },
+        },
+      },
+      MuiTypography: {
+        styleOverrides: {
+          root: {
+            color: 'inherit',
           },
         },
       },
@@ -145,14 +202,71 @@ const createAppTheme = (mode: ThemeMode): Theme => {
           },
         },
       },
+      MuiTextField: {
+        styleOverrides: {
+          root: {
+            '& .MuiInputBase-root': {
+              color: colors.text,
+            },
+            '& .MuiInputLabel-root': {
+              color: colors.textSecondary,
+            },
+            '& .MuiOutlinedInput-root': {
+              '& fieldset': {
+                borderColor: colors.border,
+              },
+              '&:hover fieldset': {
+                borderColor: colors.primary,
+              },
+            },
+          },
+        },
+      },
+      MuiSelect: {
+        styleOverrides: {
+          root: {
+            color: colors.text,
+          },
+        },
+      },
+      MuiMenuItem: {
+        styleOverrides: {
+          root: {
+            color: colors.text,
+            '&:hover': {
+              backgroundColor: colors.cardHover,
+            },
+          },
+        },
+      },
+      MuiSwitch: {
+        styleOverrides: {
+          root: {
+            '& .MuiSwitch-switchBase.Mui-checked': {
+              color: colors.primary,
+            },
+            '& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track': {
+              backgroundColor: colors.primary,
+            },
+          },
+        },
+      },
     },
     typography: {
       fontFamily: '"Inter", "Roboto", "Helvetica", "Arial", sans-serif',
       h4: {
         fontWeight: 700,
+        color: 'inherit',
       },
       h6: {
         fontWeight: 600,
+        color: 'inherit',
+      },
+      body1: {
+        color: 'inherit',
+      },
+      body2: {
+        color: 'inherit',
       },
     },
   });

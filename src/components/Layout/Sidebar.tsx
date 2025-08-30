@@ -1,28 +1,24 @@
 import React from 'react';
 import {
-  Box,
   Drawer,
   List,
   ListItem,
   ListItemButton,
   ListItemIcon,
   ListItemText,
+  Box,
   Typography,
   Avatar,
-  Divider,
-  IconButton,
-  Tooltip
+  Divider
 } from '@mui/material';
 import {
   Dashboard as DashboardIcon,
   People as PeopleIcon,
-  AttachMoney as MoneyIcon,
-  Settings as SettingsIcon,
-  Notifications as NotificationsIcon,
-  AccountCircle as AccountIcon,
-  Menu as MenuIcon
+  AttachMoney as RewardsIcon,
+  Settings as SettingsIcon
 } from '@mui/icons-material';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
+import { useTheme } from '../../context/ThemeContext';
 
 interface SidebarProps {
   open: boolean;
@@ -43,7 +39,7 @@ const menuItems = [
   },
   {
     text: 'Reward Balance',
-    icon: <MoneyIcon />,
+    icon: <RewardsIcon />,
     path: '/rewards'
   },
   {

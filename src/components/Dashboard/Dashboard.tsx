@@ -15,10 +15,8 @@ import {
   Alert
 } from '@mui/material';
 import {
-  TrendingUp,
   People,
   CardGiftcard,
-  AttachMoney,
   PersonAdd,
   CheckCircle
 } from '@mui/icons-material';
@@ -30,18 +28,14 @@ import {
   CartesianGrid,
   Tooltip,
   ResponsiveContainer,
-  BarChart,
-  Bar,
   PieChart,
   Pie,
   Cell
 } from 'recharts';
 import { useData } from '../../context/DataContext';
-import { useTheme } from '../../context/ThemeContext';
 
 const Dashboard: React.FC = () => {
   const { data, loading, error } = useData();
-  const { theme } = useTheme();
 
   if (loading) {
     return (

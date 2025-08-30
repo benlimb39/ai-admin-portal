@@ -29,7 +29,6 @@ import {
 import {
   DataGrid,
   GridColDef,
-  GridValueGetter,
   GridToolbar,
   GridFilterModel,
   GridSortModel

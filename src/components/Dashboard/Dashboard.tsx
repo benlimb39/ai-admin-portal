@@ -39,8 +39,6 @@ import {
 import { useData } from '../../context/DataContext';
 import { useTheme } from '../../context/ThemeContext';
 
-const COLORS = ['#6366f1', '#10b981', '#f59e0b', '#ef4444'];
-
 const Dashboard: React.FC = () => {
   const { data, loading, error } = useData();
   const { theme } = useTheme();
@@ -116,24 +114,27 @@ const Dashboard: React.FC = () => {
     { month: 'Jun', users: dashboardMetrics.totalUsers, referrals: dashboardMetrics.totalReferrals }
   ];
 
-  // Calculate reward distribution
+  // Calculate reward distribution with better color correlation
   const rewardDistribution = [
     { 
-      type: 'Referral Bonuses', 
-      amount: rewards.filter(r => r.type === 'referral').reduce((sum, r) => sum + r.amount, 0),
-      percentage: rewards.length > 0 ? (rewards.filter(r => r.type === 'referral').length / rewards.length) * 100 : 0
+      name: 'Referral Bonuses', 
+      value: rewards.filter(r => r.type === 'referral').reduce((sum, r) => sum + r.amount, 0),
+      percentage: rewards.length > 0 ? (rewards.filter(r => r.type === 'referral').length / rewards.length) * 100 : 0,
+      color: '#6366f1' // Primary theme color
     },
     { 
-      type: 'Performance Bonuses', 
-      amount: rewards.filter(r => r.type === 'bonus').reduce((sum, r) => sum + r.amount, 0),
-      percentage: rewards.length > 0 ? (rewards.filter(r => r.type === 'bonus').length / rewards.length) * 100 : 0
+      name: 'Performance Bonuses', 
+      value: rewards.filter(r => r.type === 'bonus').reduce((sum, r) => sum + r.amount, 0),
+      percentage: rewards.length > 0 ? (rewards.filter(r => r.type === 'bonus').length / rewards.length) * 100 : 0,
+      color: '#10b981' // Success theme color
     },
     { 
-      type: 'Promotional Rewards', 
-      amount: rewards.filter(r => r.type === 'promotion').reduce((sum, r) => sum + r.amount, 0),
-      percentage: rewards.length > 0 ? (rewards.filter(r => r.type === 'promotion').length / rewards.length) * 100 : 0
+      name: 'Promotional Rewards', 
+      value: rewards.filter(r => r.type === 'promotion').reduce((sum, r) => sum + r.amount, 0),
+      percentage: rewards.length > 0 ? (rewards.filter(r => r.type === 'promotion').length / rewards.length) * 100 : 0,
+      color: '#f59e0b' // Warning theme color
     }
-  ].filter(item => item.amount > 0);
+  ].filter(item => item.value > 0);
 
   // Get top referrers
   const topReferrers = users
@@ -270,10 +271,10 @@ const Dashboard: React.FC = () => {
                     label={({ name, percentage }) => `${name} ${percentage.toFixed(1)}%`}
                     outerRadius={80}
                     fill="#8884d8"
-                    dataKey="amount"
+                    dataKey="value"
                   >
                     {rewardDistribution.map((entry, index) => (
-                      <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                      <Cell key={`cell-${index}`} fill={entry.color} />
                     ))}
                   </Pie>
                   <Tooltip
@@ -283,6 +284,7 @@ const Dashboard: React.FC = () => {
                       borderRadius: '8px',
                       color: 'white'
                     }}
+                    formatter={(value, name) => [`$${value?.toLocaleString()}`, name]}
                   />
                 </PieChart>
               </ResponsiveContainer>
@@ -317,7 +319,7 @@ const Dashboard: React.FC = () => {
                 <React.Fragment key={index}>
                   <ListItem sx={{ px: 0 }}>
                     <ListItemAvatar>
-                      <Avatar sx={{ bgcolor: COLORS[index % COLORS.length] }}>
+                      <Avatar sx={{ bgcolor: ['#6366f1', '#10b981', '#f59e0b', '#ef4444'][index % 4] }}>
                         {referrer.name.charAt(0)}
                       </Avatar>
                     </ListItemAvatar>

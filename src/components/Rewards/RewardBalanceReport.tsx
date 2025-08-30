@@ -55,11 +55,13 @@ import {
   Close as CloseIcon
 } from '@mui/icons-material';
 import { useData } from '../../context/DataContext';
+import { useTheme } from '../../context/ThemeContext';
 
 const COLORS = ['#6366f1', '#10b981', '#f59e0b', '#ef4444'];
 
 const RewardBalanceReport: React.FC = () => {
   const { data, loading, error, refreshData } = useData();
+  const { theme } = useTheme();
   const [filterStatus, setFilterStatus] = useState<string>('all');
   const [filterType, setFilterType] = useState<string>('all');
   const [searchTerm, setSearchTerm] = useState<string>('');
@@ -74,7 +76,6 @@ const RewardBalanceReport: React.FC = () => {
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState('');
 
-  // Move useMemo before any early returns
   const filteredRewards = useMemo(() => {
     if (!data) return [];
     
@@ -300,7 +301,7 @@ const RewardBalanceReport: React.FC = () => {
       headerName: 'Description',
       width: 250,
       renderCell: (params) => (
-        <Typography variant="body2" sx={{ color: '#6b7280' }}>
+        <Typography variant="body2" sx={{ color: 'text.secondary' }}>
           {params.value}
         </Typography>
       )
@@ -378,7 +379,7 @@ const RewardBalanceReport: React.FC = () => {
   return (
     <Box>
       <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
-        <Typography variant="h4" sx={{ fontWeight: 'bold', color: '#1f2937' }}>
+        <Typography variant="h4" sx={{ fontWeight: 'bold' }}>
           Reward Balance Report
         </Typography>
         <Box sx={{ display: 'flex', gap: 2 }}>
@@ -386,7 +387,7 @@ const RewardBalanceReport: React.FC = () => {
             variant="outlined"
             startIcon={<DownloadIcon />}
             onClick={handleExport}
-            sx={{ borderColor: '#6366f1', color: '#6366f1' }}
+            sx={{ borderColor: 'primary.main', color: 'primary.main' }}
           >
             Export
           </Button>
@@ -394,7 +395,7 @@ const RewardBalanceReport: React.FC = () => {
             variant="contained"
             startIcon={<RefreshIcon />}
             onClick={handleRefresh}
-            sx={{ backgroundColor: '#6366f1' }}
+            sx={{ backgroundColor: 'primary.main' }}
           >
             Refresh
           </Button>
@@ -407,16 +408,17 @@ const RewardBalanceReport: React.FC = () => {
           <Card
             key={index}
             sx={{
-              background: 'linear-gradient(135deg, #ffffff 0%, #f8fafc 100%)',
-              border: '1px solid #e2e8f0',
-              boxShadow: '0 1px 3px 0 rgba(0, 0, 0, 0.1)'
+              background: 'linear-gradient(135deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.02) 100%)',
+              border: '1px solid',
+              borderColor: 'divider',
+              backdropFilter: 'blur(10px)',
             }}
           >
             <CardContent>
               <Typography variant="h4" sx={{ fontWeight: 'bold', color: stat.color, mb: 1 }}>
                 {stat.value}
               </Typography>
-              <Typography variant="body2" sx={{ color: '#6b7280' }}>
+              <Typography variant="body2" sx={{ color: 'text.secondary' }}>
                 {stat.title}
               </Typography>
             </CardContent>
@@ -429,25 +431,27 @@ const RewardBalanceReport: React.FC = () => {
         {/* Monthly Rewards Chart */}
         <Card
           sx={{
-            background: 'linear-gradient(135deg, #ffffff 0%, #f8fafc 100%)',
-            border: '1px solid #e2e8f0',
-            boxShadow: '0 1px 3px 0 rgba(0, 0, 0, 0.1)'
+            background: 'linear-gradient(135deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.02) 100%)',
+            border: '1px solid',
+            borderColor: 'divider',
+            backdropFilter: 'blur(10px)',
           }}
         >
           <CardContent>
-            <Typography variant="h6" sx={{ mb: 3, fontWeight: 'bold', color: '#1f2937' }}>
+            <Typography variant="h6" sx={{ mb: 3, fontWeight: 'bold' }}>
               Monthly Reward Distribution
             </Typography>
             <ResponsiveContainer width="100%" height={300}>
               <BarChart data={monthlyRewardData}>
-                <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
-                <XAxis dataKey="month" stroke="#6b7280" />
-                <YAxis stroke="#6b7280" />
+                <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.1)" />
+                <XAxis dataKey="month" stroke="rgba(255,255,255,0.7)" />
+                <YAxis stroke="rgba(255,255,255,0.7)" />
                 <RechartsTooltip
                   contentStyle={{
-                    backgroundColor: '#ffffff',
-                    border: '1px solid #e5e7eb',
-                    borderRadius: '8px'
+                    backgroundColor: 'rgba(0,0,0,0.8)',
+                    border: '1px solid rgba(255,255,255,0.1)',
+                    borderRadius: '8px',
+                    color: 'white'
                   }}
                 />
                 <Bar dataKey="amount" fill="#6366f1" radius={[4, 4, 0, 0]} />
@@ -459,14 +463,15 @@ const RewardBalanceReport: React.FC = () => {
         {/* Reward Types Distribution */}
         <Card
           sx={{
-            background: 'linear-gradient(135deg, #ffffff 0%, #f8fafc 100%)',
-            border: '1px solid #e2e8f0',
-            boxShadow: '0 1px 3px 0 rgba(0, 0, 0, 0.1)',
+            background: 'linear-gradient(135deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.02) 100%)',
+            border: '1px solid',
+            borderColor: 'divider',
+            backdropFilter: 'blur(10px)',
             height: '100%'
           }}
         >
           <CardContent>
-            <Typography variant="h6" sx={{ mb: 3, fontWeight: 'bold', color: '#1f2937' }}>
+            <Typography variant="h6" sx={{ mb: 3, fontWeight: 'bold' }}>
               Reward Types
             </Typography>
             {rewardTypeData.length > 0 ? (
@@ -488,16 +493,17 @@ const RewardBalanceReport: React.FC = () => {
                   </Pie>
                   <RechartsTooltip
                     contentStyle={{
-                      backgroundColor: '#ffffff',
-                      border: '1px solid #e5e7eb',
-                      borderRadius: '8px'
+                      backgroundColor: 'rgba(0,0,0,0.8)',
+                      border: '1px solid rgba(255,255,255,0.1)',
+                      borderRadius: '8px',
+                      color: 'white'
                     }}
                   />
                 </PieChart>
               </ResponsiveContainer>
             ) : (
               <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: 300 }}>
-                <Typography variant="body2" sx={{ color: '#6b7280' }}>
+                <Typography variant="body2" sx={{ color: 'text.secondary' }}>
                   No reward data available
                 </Typography>
               </Box>
@@ -509,9 +515,10 @@ const RewardBalanceReport: React.FC = () => {
       {/* Filters */}
       <Card
         sx={{
-          background: 'linear-gradient(135deg, #ffffff 0%, #f8fafc 100%)',
-          border: '1px solid #e2e8f0',
-          boxShadow: '0 1px 3px 0 rgba(0, 0, 0, 0.1)',
+          background: 'linear-gradient(135deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.02) 100%)',
+          border: '1px solid',
+          borderColor: 'divider',
+          backdropFilter: 'blur(10px)',
           mb: 3
         }}
       >
@@ -523,6 +530,11 @@ const RewardBalanceReport: React.FC = () => {
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               size="small"
+              sx={{
+                '& .MuiOutlinedInput-root': {
+                  backgroundColor: 'background.paper',
+                }
+              }}
             />
             <FormControl fullWidth size="small">
               <InputLabel>Status</InputLabel>
@@ -530,6 +542,9 @@ const RewardBalanceReport: React.FC = () => {
                 value={filterStatus}
                 label="Status"
                 onChange={(e) => setFilterStatus(e.target.value)}
+                sx={{
+                  backgroundColor: 'background.paper',
+                }}
               >
                 <MenuItem value="all">All Status</MenuItem>
                 <MenuItem value="paid">Paid</MenuItem>
@@ -543,6 +558,9 @@ const RewardBalanceReport: React.FC = () => {
                 value={filterType}
                 label="Type"
                 onChange={(e) => setFilterType(e.target.value)}
+                sx={{
+                  backgroundColor: 'background.paper',
+                }}
               >
                 <MenuItem value="all">All Types</MenuItem>
                 <MenuItem value="referral">Referral</MenuItem>
@@ -571,9 +589,10 @@ const RewardBalanceReport: React.FC = () => {
       {/* Data Grid */}
       <Card
         sx={{
-          background: 'linear-gradient(135deg, #ffffff 0%, #f8fafc 100%)',
-          border: '1px solid #e2e8f0',
-          boxShadow: '0 1px 3px 0 rgba(0, 0, 0, 0.1)'
+          background: 'linear-gradient(135deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.02) 100%)',
+          border: '1px solid',
+          borderColor: 'divider',
+          backdropFilter: 'blur(10px)',
         }}
       >
         <CardContent sx={{ p: 0 }}>
@@ -604,16 +623,177 @@ const RewardBalanceReport: React.FC = () => {
             }}
             sx={{
               border: 'none',
+              backgroundColor: 'transparent',
+              color: 'text.primary',
+              '& .MuiDataGrid-root': {
+                border: 'none',
+                backgroundColor: 'transparent',
+              },
               '& .MuiDataGrid-cell': {
-                borderBottom: '1px solid #e5e7eb'
+                borderBottom: '1px solid',
+                borderColor: 'divider',
+                backgroundColor: 'transparent',
               },
               '& .MuiDataGrid-columnHeaders': {
-                backgroundColor: '#f9fafb',
-                borderBottom: '2px solid #e5e7eb'
+                backgroundColor: 'action.hover',
+                borderBottom: '2px solid',
+                borderColor: 'divider',
+                color: 'text.primary',
               },
-              '& .MuiDataGrid-row:hover': {
-                backgroundColor: '#f3f4f6'
-              }
+              '& .MuiDataGrid-row': {
+                backgroundColor: 'transparent',
+                '&:hover': {
+                  backgroundColor: 'action.hover',
+                },
+                '&:nth-of-type(even)': {
+                  backgroundColor: 'rgba(255,255,255,0.02)',
+                },
+              },
+              '& .MuiDataGrid-footerContainer': {
+                borderTop: '1px solid',
+                borderColor: 'divider',
+                backgroundColor: 'action.hover',
+              },
+              '& .MuiDataGrid-toolbarContainer': {
+                backgroundColor: 'transparent',
+                borderBottom: '1px solid',
+                borderColor: 'divider',
+              },
+              '& .MuiDataGrid-virtualScroller': {
+                backgroundColor: 'transparent',
+              },
+              '& .MuiDataGrid-virtualScrollerContent': {
+                backgroundColor: 'transparent',
+              },
+              '& .MuiDataGrid-virtualScrollerRenderZone': {
+                backgroundColor: 'transparent',
+              },
+              '& .MuiDataGrid-columnHeader': {
+                backgroundColor: 'transparent',
+              },
+              '& .MuiDataGrid-columnHeaderTitle': {
+                color: 'text.primary',
+              },
+              '& .MuiDataGrid-cellContent': {
+                color: 'text.primary',
+              },
+              '& .MuiDataGrid-selectedRowCount': {
+                color: 'text.primary',
+              },
+              '& .MuiDataGrid-footerTotalRow': {
+                backgroundColor: 'action.hover',
+              },
+              '& .MuiDataGrid-footerRow': {
+                backgroundColor: 'action.hover',
+              },
+              '& .MuiDataGrid-panel': {
+                backgroundColor: 'background.paper',
+                border: '1px solid',
+                borderColor: 'divider',
+              },
+              '& .MuiDataGrid-panelContent': {
+                backgroundColor: 'background.paper',
+              },
+              '& .MuiDataGrid-panelHeader': {
+                backgroundColor: 'action.hover',
+                borderBottom: '1px solid',
+                borderColor: 'divider',
+              },
+              '& .MuiDataGrid-filterForm': {
+                backgroundColor: 'background.paper',
+              },
+              '& .MuiDataGrid-filterFormDeleteIcon': {
+                color: 'text.primary',
+              },
+              '& .MuiDataGrid-filterFormOperatorInput': {
+                color: 'text.primary',
+              },
+              '& .MuiDataGrid-filterFormValueInput': {
+                color: 'text.primary',
+              },
+              '& .MuiDataGrid-filterFormColumnInput': {
+                color: 'text.primary',
+              },
+              '& .MuiDataGrid-filterFormLogicOperatorInput': {
+                color: 'text.primary',
+              },
+              '& .MuiDataGrid-columnMenu': {
+                backgroundColor: 'background.paper',
+                border: '1px solid',
+                borderColor: 'divider',
+              },
+              '& .MuiDataGrid-menuList': {
+                backgroundColor: 'background.paper',
+              },
+              '& .MuiDataGrid-menuItem': {
+                color: 'text.primary',
+                '&:hover': {
+                  backgroundColor: 'action.hover',
+                },
+              },
+              '& .MuiDataGrid-sortIcon': {
+                color: 'text.primary',
+              },
+              '& .MuiDataGrid-menuIcon': {
+                color: 'text.primary',
+              },
+              '& .MuiDataGrid-columnHeaderSortIcon': {
+                color: 'text.primary',
+              },
+              '& .MuiDataGrid-columnHeaderTitleContainer': {
+                color: 'text.primary',
+              },
+              '& .MuiDataGrid-columnHeaderTitleContainerContent': {
+                color: 'text.primary',
+              },
+              '& .MuiDataGrid-columnHeaderTitleContainerContentTitle': {
+                color: 'text.primary',
+              },
+              '& .MuiDataGrid-columnHeaderTitleContainerContentSortIcon': {
+                color: 'text.primary',
+              },
+              '& .MuiDataGrid-columnHeaderTitleContainerContentMenuIcon': {
+                color: 'text.primary',
+              },
+              '& .MuiDataGrid-columnHeaderTitleContainerContentResizeHandle': {
+                color: 'text.primary',
+              },
+              '& .MuiDataGrid-columnHeaderTitleContainerContentResizeHandleLeft': {
+                color: 'text.primary',
+              },
+              '& .MuiDataGrid-columnHeaderTitleContainerContentResizeHandleRight': {
+                color: 'text.primary',
+              },
+              '& .MuiDataGrid-columnHeaderTitleContainerContentResizeHandleActive': {
+                color: 'text.primary',
+              },
+              '& .MuiDataGrid-columnHeaderTitleContainerContentResizeHandleHover': {
+                color: 'text.primary',
+              },
+              '& .MuiDataGrid-columnHeaderTitleContainerContentResizeHandleDisabled': {
+                color: 'text.primary',
+              },
+              '& .MuiDataGrid-columnHeaderTitleContainerContentResizeHandleVertical': {
+                color: 'text.primary',
+              },
+              '& .MuiDataGrid-columnHeaderTitleContainerContentResizeHandleHorizontal': {
+                color: 'text.primary',
+              },
+              '& .MuiDataGrid-columnHeaderTitleContainerContentResizeHandleCorner': {
+                color: 'text.primary',
+              },
+              '& .MuiDataGrid-columnHeaderTitleContainerContentResizeHandleCornerTopLeft': {
+                color: 'text.primary',
+              },
+              '& .MuiDataGrid-columnHeaderTitleContainerContentResizeHandleCornerTopRight': {
+                color: 'text.primary',
+              },
+              '& .MuiDataGrid-columnHeaderTitleContainerContentResizeHandleCornerBottomLeft': {
+                color: 'text.primary',
+              },
+              '& .MuiDataGrid-columnHeaderTitleContainerContentResizeHandleCornerBottomRight': {
+                color: 'text.primary',
+              },
             }}
           />
         </CardContent>

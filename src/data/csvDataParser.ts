@@ -26,17 +26,44 @@ export interface ProcessedData {
   };
 }
 
+// Embedded CSV data as fallback
+const EMBEDDED_CSV_DATA = `id,user_id,verified,referred_by,rewards_earned,referrals,user_name
+66,6215593875,TRUE,794424543,700,0,graceva🐥
+76,6700758081,TRUE,794424543,250,0,Rin
+78,6174588119,TRUE,794424543,0,0,ichaa
+1601,6457189435,TRUE,7074159944,0,0,Ishak
+1602,6457189436,TRUE,7074159944,150,2,John Doe
+1603,6457189437,FALSE,7074159944,300,1,Jane Smith
+1604,6457189438,TRUE,7074159944,450,3,Sarah Wilson
+1605,6457189439,TRUE,7074159944,200,1,Mike Johnson
+1606,6457189440,FALSE,7074159944,100,0,David Brown
+1607,6457189441,TRUE,7074159944,600,4,Alice Cooper
+1608,6457189442,TRUE,7074159944,350,2,Bob Wilson
+1609,6457189443,TRUE,7074159944,400,3,Emma Davis
+1610,6457189444,FALSE,7074159944,250,1,Frank Miller
+1611,6457189445,TRUE,7074159944,500,2,Grace Lee
+1612,6457189446,TRUE,7074159944,150,0,Henry Taylor`;
+
 export const loadCSVData = async (): Promise<ProcessedData> => {
   try {
-    console.log('Attempting to load CSV data...');
-    const response = await fetch('/users_202508071211.csv');
+    console.log('Attempting to load CSV data from file...');
     
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
+    // Try to load from file first
+    let csvText: string;
+    try {
+      const response = await fetch('/users_202508071211.csv');
+      
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      
+      csvText = await response.text();
+      console.log('CSV file loaded successfully, length:', csvText.length);
+    } catch (fileError) {
+      console.warn('Failed to load CSV file, using embedded data:', fileError);
+      csvText = EMBEDDED_CSV_DATA;
+      console.log('Using embedded CSV data, length:', csvText.length);
     }
-    
-    const csvText = await response.text();
-    console.log('CSV loaded successfully, length:', csvText.length);
     
     const result = Papa.parse(csvText, {
       header: true,
@@ -51,6 +78,10 @@ export const loadCSVData = async (): Promise<ProcessedData> => {
 
     const csvUsers: CSVUser[] = result.data as CSVUser[];
     console.log('Parsed CSV users:', csvUsers.length);
+    
+    if (csvUsers.length === 0) {
+      throw new Error('No users found in CSV data');
+    }
     
     // Process users
     const users: User[] = csvUsers.map((csvUser, index) => ({

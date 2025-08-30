@@ -37,6 +37,8 @@ import { useData } from '../../context/DataContext';
 const Dashboard: React.FC = () => {
   const { data, loading, error } = useData();
 
+  console.log('Dashboard render:', { data, loading, error });
+
   if (loading) {
     return (
       <Box sx={{ 

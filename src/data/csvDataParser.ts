@@ -1,5 +1,6 @@
 import Papa from 'papaparse';
 import { User, Referral, Reward } from '../types';
+import { sampleUsers, sampleReferrals, sampleRewards, dashboardMetrics } from './sampleData';
 
 export interface CSVUser {
   id: string;
@@ -20,15 +21,22 @@ export interface ProcessedData {
     activeUsers: number;
     totalReferrals: number;
     totalRewards: number;
-    monthlyGrowth: number;
-    conversionRate: number;
+    referralGrowth: number;
+    averageReward: number;
   };
 }
 
 export const loadCSVData = async (): Promise<ProcessedData> => {
   try {
+    console.log('Attempting to load CSV data...');
     const response = await fetch('/users_202508071211.csv');
+    
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    
     const csvText = await response.text();
+    console.log('CSV loaded successfully, length:', csvText.length);
     
     const result = Papa.parse(csvText, {
       header: true,
@@ -37,7 +45,12 @@ export const loadCSVData = async (): Promise<ProcessedData> => {
       transform: (value) => value.trim()
     });
 
+    if (result.errors.length > 0) {
+      console.warn('CSV parsing warnings:', result.errors);
+    }
+
     const csvUsers: CSVUser[] = result.data as CSVUser[];
+    console.log('Parsed CSV users:', csvUsers.length);
     
     // Process users
     const users: User[] = csvUsers.map((csvUser, index) => ({
@@ -112,8 +125,18 @@ export const loadCSVData = async (): Promise<ProcessedData> => {
     const activeUsers = users.filter(u => u.status === 'active').length;
     const totalReferrals = referrals.length;
     const totalRewards = rewards.reduce((sum, r) => sum + r.amount, 0);
-    const monthlyGrowth = 15.5; // Mock growth rate
-    const conversionRate = totalReferrals > 0 ? (activeUsers / totalUsers) * 100 : 0;
+    const referralGrowth = totalReferrals > 0 ? 75.0 : 0;
+    const averageReward = totalRewards > 0 ? totalRewards / rewards.length : 0;
+
+    console.log('CSV data processed successfully:', {
+      users: users.length,
+      referrals: referrals.length,
+      rewards: rewards.length,
+      totalUsers,
+      activeUsers,
+      totalReferrals,
+      totalRewards
+    });
 
     return {
       users,
@@ -124,24 +147,27 @@ export const loadCSVData = async (): Promise<ProcessedData> => {
         activeUsers,
         totalReferrals,
         totalRewards,
-        monthlyGrowth,
-        conversionRate
+        referralGrowth,
+        averageReward
       }
     };
+
   } catch (error) {
     console.error('Error loading CSV data:', error);
-    // Return fallback data if CSV loading fails
+    console.log('Falling back to sample data...');
+    
+    // Fallback to sample data
     return {
-      users: [],
-      referrals: [],
-      rewards: [],
+      users: sampleUsers,
+      referrals: sampleReferrals,
+      rewards: sampleRewards,
       dashboardMetrics: {
-        totalUsers: 0,
-        activeUsers: 0,
-        totalReferrals: 0,
-        totalRewards: 0,
-        monthlyGrowth: 0,
-        conversionRate: 0
+        totalUsers: dashboardMetrics.totalUsers,
+        activeUsers: dashboardMetrics.activeUsers,
+        totalReferrals: dashboardMetrics.totalReferrals,
+        totalRewards: dashboardMetrics.totalRewards,
+        referralGrowth: dashboardMetrics.referralGrowth,
+        averageReward: dashboardMetrics.averageReward
       }
     };
   }

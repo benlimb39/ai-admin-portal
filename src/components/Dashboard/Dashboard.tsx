@@ -45,16 +45,23 @@ const Dashboard: React.FC = () => {
 
   if (loading) {
     return (
-      <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '50vh' }}>
-        <CircularProgress size={60} />
+      <Box sx={{ 
+        display: 'flex', 
+        justifyContent: 'center', 
+        alignItems: 'center', 
+        height: '50vh',
+        backgroundColor: '#000000',
+        color: '#ffffff'
+      }}>
+        <CircularProgress size={60} sx={{ color: '#ffffff' }} />
       </Box>
     );
   }
 
   if (error) {
     return (
-      <Box sx={{ p: 3 }}>
-        <Alert severity="error" sx={{ mb: 3 }}>
+      <Box sx={{ p: 3, backgroundColor: '#000000', color: '#ffffff' }}>
+        <Alert severity="error" sx={{ mb: 3, backgroundColor: '#1f1f1f', color: '#ffffff' }}>
           Error loading data: {error}
         </Alert>
       </Box>
@@ -63,8 +70,8 @@ const Dashboard: React.FC = () => {
 
   if (!data) {
     return (
-      <Box sx={{ p: 3 }}>
-        <Alert severity="warning">
+      <Box sx={{ p: 3, backgroundColor: '#000000', color: '#ffffff' }}>
+        <Alert severity="warning" sx={{ backgroundColor: '#1f1f1f', color: '#ffffff' }}>
           No data available. Please check your CSV file.
         </Alert>
       </Box>
@@ -148,8 +155,8 @@ const Dashboard: React.FC = () => {
     }));
 
   return (
-    <Box>
-      <Typography variant="h4" sx={{ mb: 3, fontWeight: 'bold' }}>
+    <Box sx={{ backgroundColor: '#000000', color: '#ffffff', minHeight: '100vh', p: 3 }}>
+      <Typography variant="h4" sx={{ mb: 3, fontWeight: 'bold', color: '#ffffff' }}>
         Dashboard Overview
       </Typography>
 
@@ -160,12 +167,11 @@ const Dashboard: React.FC = () => {
             key={index}
             sx={{
               height: '100%',
-              background: 'linear-gradient(135deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.02) 100%)',
-              border: '1px solid',
-              borderColor: 'divider',
-              backdropFilter: 'blur(10px)',
+              backgroundColor: '#1a1a1a',
+              border: '1px solid #333333',
+              color: '#ffffff',
               '&:hover': {
-                boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)',
+                boxShadow: '0 4px 6px -1px rgba(255, 255, 255, 0.1)',
                 transform: 'translateY(-2px)',
                 transition: 'all 0.2s ease-in-out'
               }
@@ -174,10 +180,10 @@ const Dashboard: React.FC = () => {
             <CardContent>
               <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
                 <Box>
-                  <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 1 }}>
+                  <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 1, color: '#ffffff' }}>
                     {metric.value}
                   </Typography>
-                  <Typography variant="body2" sx={{ color: 'text.secondary', mb: 1 }}>
+                  <Typography variant="body2" sx={{ color: '#cccccc', mb: 1 }}>
                     {metric.title}
                   </Typography>
                   <Chip
@@ -204,27 +210,26 @@ const Dashboard: React.FC = () => {
         {/* Monthly Growth Chart */}
         <Card
           sx={{
-            background: 'linear-gradient(135deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.02) 100%)',
-            border: '1px solid',
-            borderColor: 'divider',
-            backdropFilter: 'blur(10px)',
+            backgroundColor: '#1a1a1a',
+            border: '1px solid #333333',
+            color: '#ffffff',
           }}
         >
           <CardContent>
-            <Typography variant="h6" sx={{ mb: 3, fontWeight: 'bold' }}>
+            <Typography variant="h6" sx={{ mb: 3, fontWeight: 'bold', color: '#ffffff' }}>
               Monthly Growth
             </Typography>
             <ResponsiveContainer width="100%" height={300}>
               <LineChart data={monthlyData}>
-                <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.1)" />
-                <XAxis dataKey="month" stroke="rgba(255,255,255,0.7)" />
-                <YAxis stroke="rgba(255,255,255,0.7)" />
+                <CartesianGrid strokeDasharray="3 3" stroke="#333333" />
+                <XAxis dataKey="month" stroke="#ffffff" />
+                <YAxis stroke="#ffffff" />
                 <Tooltip
                   contentStyle={{
-                    backgroundColor: 'rgba(0,0,0,0.8)',
-                    border: '1px solid rgba(255,255,255,0.1)',
+                    backgroundColor: '#1a1a1a',
+                    border: '1px solid #333333',
                     borderRadius: '8px',
-                    color: 'white'
+                    color: '#ffffff'
                   }}
                 />
                 <Line
@@ -249,15 +254,14 @@ const Dashboard: React.FC = () => {
         {/* Reward Distribution */}
         <Card
           sx={{
-            background: 'linear-gradient(135deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.02) 100%)',
-            border: '1px solid',
-            borderColor: 'divider',
-            backdropFilter: 'blur(10px)',
+            backgroundColor: '#1a1a1a',
+            border: '1px solid #333333',
+            color: '#ffffff',
             height: '100%'
           }}
         >
           <CardContent>
-            <Typography variant="h6" sx={{ mb: 3, fontWeight: 'bold' }}>
+            <Typography variant="h6" sx={{ mb: 3, fontWeight: 'bold', color: '#ffffff' }}>
               Reward Distribution
             </Typography>
             {rewardDistribution.length > 0 ? (
@@ -279,10 +283,10 @@ const Dashboard: React.FC = () => {
                   </Pie>
                   <Tooltip
                     contentStyle={{
-                      backgroundColor: 'rgba(0,0,0,0.8)',
-                      border: '1px solid rgba(255,255,255,0.1)',
+                      backgroundColor: '#1a1a1a',
+                      border: '1px solid #333333',
                       borderRadius: '8px',
-                      color: 'white'
+                      color: '#ffffff'
                     }}
                     formatter={(value, name) => [`$${value?.toLocaleString()}`, name]}
                   />
@@ -290,7 +294,7 @@ const Dashboard: React.FC = () => {
               </ResponsiveContainer>
             ) : (
               <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: 300 }}>
-                <Typography variant="body2" sx={{ color: 'text.secondary' }}>
+                <Typography variant="body2" sx={{ color: '#cccccc' }}>
                   No reward data available
                 </Typography>
               </Box>
@@ -304,14 +308,13 @@ const Dashboard: React.FC = () => {
         {/* Top Referrers */}
         <Card
           sx={{
-            background: 'linear-gradient(135deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.02) 100%)',
-            border: '1px solid',
-            borderColor: 'divider',
-            backdropFilter: 'blur(10px)',
+            backgroundColor: '#1a1a1a',
+            border: '1px solid #333333',
+            color: '#ffffff',
           }}
         >
           <CardContent>
-            <Typography variant="h6" sx={{ mb: 3, fontWeight: 'bold' }}>
+            <Typography variant="h6" sx={{ mb: 3, fontWeight: 'bold', color: '#ffffff' }}>
               Top Referrers
             </Typography>
             <List>
@@ -326,11 +329,11 @@ const Dashboard: React.FC = () => {
                     <ListItemText
                       primary={referrer.name}
                       secondary={`${referrer.referrals} referrals • $${referrer.rewards.toLocaleString()} earned`}
-                      primaryTypographyProps={{ fontWeight: 'medium' }}
-                      secondaryTypographyProps={{ color: 'text.secondary' }}
+                      primaryTypographyProps={{ fontWeight: 'medium', color: '#ffffff' }}
+                      secondaryTypographyProps={{ color: '#cccccc' }}
                     />
                   </ListItem>
-                  {index < topReferrers.length - 1 && <Divider />}
+                  {index < topReferrers.length - 1 && <Divider sx={{ borderColor: '#333333' }} />}
                 </React.Fragment>
               ))}
             </List>
@@ -340,14 +343,13 @@ const Dashboard: React.FC = () => {
         {/* Recent Activity */}
         <Card
           sx={{
-            background: 'linear-gradient(135deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.02) 100%)',
-            border: '1px solid',
-            borderColor: 'divider',
-            backdropFilter: 'blur(10px)',
+            backgroundColor: '#1a1a1a',
+            border: '1px solid #333333',
+            color: '#ffffff',
           }}
         >
           <CardContent>
-            <Typography variant="h6" sx={{ mb: 3, fontWeight: 'bold' }}>
+            <Typography variant="h6" sx={{ mb: 3, fontWeight: 'bold', color: '#ffffff' }}>
               Recent Activity
             </Typography>
             <List>
@@ -362,11 +364,11 @@ const Dashboard: React.FC = () => {
                     <ListItemText
                       primary={`${referral.referrerName} referred ${referral.referredName}`}
                       secondary={`${referral.status} • $${referral.reward} reward`}
-                      primaryTypographyProps={{ fontWeight: 'medium' }}
-                      secondaryTypographyProps={{ color: 'text.secondary' }}
+                      primaryTypographyProps={{ fontWeight: 'medium', color: '#ffffff' }}
+                      secondaryTypographyProps={{ color: '#cccccc' }}
                     />
                   </ListItem>
-                  {index < Math.min(5, referrals.length) - 1 && <Divider />}
+                  {index < Math.min(5, referrals.length) - 1 && <Divider sx={{ borderColor: '#333333' }} />}
                 </React.Fragment>
               ))}
             </List>

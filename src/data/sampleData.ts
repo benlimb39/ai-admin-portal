@@ -169,8 +169,8 @@ export const dashboardMetrics: DashboardMetrics = {
   activeUsers: 890,
   totalReferrals: 456,
   totalRewards: 280,
-  monthlyGrowth: 15.5,
-  referralGrowth: 75.0
+  referralGrowth: 75.0,
+  averageReward: 35.5
 };
 
 export const monthlyData: MonthlyData[] = [

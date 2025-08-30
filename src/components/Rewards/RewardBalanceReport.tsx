@@ -92,7 +92,7 @@ const RewardBalanceReport: React.FC = () => {
     if (searchTerm) {
       filtered = filtered.filter(reward =>
         reward.userName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        reward.description.toLowerCase().includes(searchTerm.toLowerCase())
+        (reward.description && reward.description.toLowerCase().includes(searchTerm.toLowerCase()))
       );
     }
 

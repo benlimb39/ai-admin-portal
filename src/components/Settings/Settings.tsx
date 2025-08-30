@@ -44,7 +44,7 @@ const Settings: React.FC = () => {
       sms: false,
     },
     display: {
-      compactMode: false,
+      compact: false,
       showAvatars: true,
       autoRefresh: true,
     },
@@ -62,7 +62,7 @@ const Settings: React.FC = () => {
   };
 
   const handleSettingChange = (category: keyof UserSettings, key: string, value: any) => {
-    setSettings(prev => {
+    setSettings((prev: UserSettings) => {
       const categorySettings = prev[category] as any;
       return {
         ...prev,
@@ -94,7 +94,7 @@ const Settings: React.FC = () => {
         sms: false,
       },
       display: {
-        compactMode: false,
+        compact: false,
         showAvatars: true,
         autoRefresh: true,
       },
@@ -332,8 +332,8 @@ const Settings: React.FC = () => {
                 <ListItemSecondaryAction>
                   <Switch
                     edge="end"
-                    checked={settings.display.compactMode}
-                    onChange={(e) => handleSettingChange('display', 'compactMode', e.target.checked)}
+                            checked={settings.display.compact}
+        onChange={(e) => handleSettingChange('display', 'compact', e.target.checked)}
                   />
                 </ListItemSecondaryAction>
               </ListItem>

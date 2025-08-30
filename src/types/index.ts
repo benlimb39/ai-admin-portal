@@ -2,11 +2,11 @@ export interface User {
   id: string;
   name: string;
   email: string;
-  avatar: string;
-  status: 'active' | 'inactive' | 'pending';
   joinDate: string;
+  status: 'active' | 'inactive' | 'pending';
   totalReferrals: number;
   totalRewards: number;
+  avatar?: string;
 }
 
 export interface Referral {
@@ -16,8 +16,8 @@ export interface Referral {
   referredId: string;
   referredName: string;
   referredEmail: string;
-  status: 'pending' | 'completed' | 'cancelled';
   date: string;
+  status: 'pending' | 'completed' | 'cancelled';
   reward: number;
 }
 
@@ -27,9 +27,9 @@ export interface Reward {
   userName: string;
   type: 'referral' | 'bonus' | 'promotion';
   amount: number;
-  status: 'pending' | 'paid' | 'cancelled';
   date: string;
-  description: string;
+  status: 'pending' | 'paid' | 'cancelled';
+  description?: string;
 }
 
 export interface DashboardMetrics {
@@ -37,8 +37,8 @@ export interface DashboardMetrics {
   activeUsers: number;
   totalReferrals: number;
   totalRewards: number;
-  monthlyGrowth: number;
   referralGrowth: number;
+  averageReward: number;
 }
 
 export interface ChartData {
@@ -63,14 +63,18 @@ export interface ThemeSettings {
 }
 
 export interface UserSettings {
-  theme: ThemeSettings;
+  theme: {
+    mode: ThemeMode;
+    primaryColor: string;
+    accentColor: string;
+  };
   notifications: {
     email: boolean;
     push: boolean;
     sms: boolean;
   };
   display: {
-    compactMode: boolean;
+    compact: boolean;
     showAvatars: boolean;
     autoRefresh: boolean;
   };

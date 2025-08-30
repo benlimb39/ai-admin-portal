@@ -295,7 +295,7 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
 
   const setThemeMode = (mode: ThemeMode) => {
     setThemeModeState(mode);
-    setThemeSettings(prev => ({ ...prev, mode }));
+    setThemeSettings((prev: ThemeSettings) => ({ ...prev, mode }));
     localStorage.setItem('themeMode', mode);
   };
 

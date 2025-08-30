@@ -92,6 +92,35 @@ The application expects a CSV file with the following columns:
 - `referrals`: Number of referrals
 - `user_name`: User's name
 
+## 🚀 Deployment
+
+### Netlify Deployment
+
+1. **Build the project**
+   ```bash
+   npm run build
+   ```
+
+2. **Deploy to Netlify**
+   - Connect your GitHub repository to Netlify
+   - Set build command: `npm run build`
+   - Set publish directory: `build`
+   - Deploy!
+
+3. **Environment Variables** (if needed)
+   - Add any environment variables in Netlify dashboard
+   - No additional environment variables required for basic deployment
+
+4. **Custom Domain** (optional)
+   - Configure custom domain in Netlify dashboard
+   - SSL certificate will be automatically provisioned
+
+### Alternative Deployment Options
+
+- **Vercel**: Similar to Netlify, supports React apps out of the box
+- **GitHub Pages**: Requires additional configuration for React Router
+- **AWS S3 + CloudFront**: For enterprise deployments
+
 ## 🎯 Usage
 
 ### Dashboard

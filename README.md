@@ -1,46 +1,185 @@
-# Getting Started with Create React App
+# Modern Admin Portal
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A comprehensive admin portal built with React, TypeScript, and Material-UI for managing user referrals and reward systems.
 
-## Available Scripts
+## 🚀 Features
 
-In the project directory, you can run:
+### 📊 Dashboard
+- **Real-time Metrics**: Total users, referrals, rewards, and growth statistics
+- **Interactive Charts**: Monthly growth trends and reward distribution
+- **Top Performers**: Display of top referrers and recent activities
+- **Responsive Design**: Works seamlessly on desktop, tablet, and mobile
 
-### `npm start`
+### 📈 Referral Management
+- **Complete Referral Tracking**: View all referral data with detailed information
+- **Advanced Filtering**: Filter by status, search by name/email
+- **Export Functionality**: Download referral data as CSV
+- **Action Buttons**: View details, export, and refresh capabilities
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+### 💰 Reward System
+- **Reward Balance Tracking**: Monitor all reward transactions
+- **Payment Processing**: Simulated payment processing for pending rewards
+- **Visual Analytics**: Charts showing monthly distribution and reward types
+- **Status Management**: Track paid, pending, and cancelled rewards
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+## 🛠️ Tech Stack
 
-### `npm test`
+- **Frontend**: React 18 with TypeScript
+- **UI Framework**: Material-UI (MUI) v5
+- **Charts**: Recharts for data visualization
+- **Data Grid**: MUI X Data Grid for advanced tables
+- **Routing**: React Router v6
+- **Data Parsing**: PapaParse for CSV handling
+- **State Management**: React Context API
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## 📦 Installation
 
-### `npm run build`
+1. **Clone the repository**
+   ```bash
+   git clone <your-repo-url>
+   cd admin-portal
+   ```
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+2. **Install dependencies**
+   ```bash
+   npm install
+   ```
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+3. **Add your CSV data**
+   - Place your CSV file in the `public` folder
+   - Update the file path in `src/data/csvDataParser.ts` if needed
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+4. **Start the development server**
+   ```bash
+   npm start
+   ```
 
-### `npm run eject`
+5. **Open your browser**
+   - Navigate to `http://localhost:3000`
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+## 📁 Project Structure
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+```
+admin-portal/
+├── public/
+│   ├── users_202508071211.csv    # Your CSV data file
+│   └── index.html
+├── src/
+│   ├── components/
+│   │   ├── Dashboard/            # Dashboard components
+│   │   ├── Layout/              # Header, Sidebar, Layout
+│   │   ├── Referrals/           # Referral report components
+│   │   └── Rewards/             # Reward report components
+│   ├── context/
+│   │   └── DataContext.tsx      # Global data management
+│   ├── data/
+│   │   └── csvDataParser.ts     # CSV parsing logic
+│   ├── types/
+│   │   └── index.ts             # TypeScript interfaces
+│   └── App.tsx                  # Main application component
+├── package.json
+└── README.md
+```
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+## 📊 Data Format
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+The application expects a CSV file with the following columns:
+- `id`: Unique identifier
+- `user_id`: User ID
+- `verified`: Verification status
+- `referred_by`: Referrer information
+- `rewards_earned`: Total rewards earned
+- `referrals`: Number of referrals
+- `user_name`: User's name
 
-## Learn More
+## 🎯 Usage
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+### Dashboard
+- View overall metrics and trends
+- Monitor top performers
+- Track recent activities
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+### Referral Report
+- **View Details**: Click the eye icon to see detailed referral information
+- **Export Data**: Click "Export" to download filtered data as CSV
+- **Filter & Search**: Use the search bar and status filters
+- **Refresh**: Click "Refresh" to reload data
+
+### Reward Balance Report
+- **View Details**: Click the eye icon for reward details
+- **Process Payments**: Click the payment icon for pending rewards
+- **Export Data**: Download reward data as CSV
+- **Advanced Filtering**: Filter by status and type
+
+## 🔧 Configuration
+
+### Customizing Data Source
+Update the CSV file path in `src/data/csvDataParser.ts`:
+```typescript
+const csvUrl = '/your-csv-file.csv';
+```
+
+### Styling
+The application uses Material-UI theming. Customize colors and styles in `src/App.tsx`:
+```typescript
+const theme = createTheme({
+  palette: {
+    primary: {
+      main: '#6366f1',
+    },
+    // ... other theme options
+  },
+});
+```
+
+## 🚀 Deployment
+
+### Build for Production
+```bash
+npm run build
+```
+
+### Deploy to GitHub Pages
+1. Add to `package.json`:
+   ```json
+   {
+     "homepage": "https://yourusername.github.io/your-repo-name",
+     "scripts": {
+       "predeploy": "npm run build",
+       "deploy": "gh-pages -d build"
+     }
+   }
+   ```
+
+2. Install gh-pages:
+   ```bash
+   npm install --save-dev gh-pages
+   ```
+
+3. Deploy:
+   ```bash
+   npm run deploy
+   ```
+
+## 🤝 Contributing
+
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
+
+## 📝 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## 🆘 Support
+
+If you encounter any issues or have questions:
+1. Check the [Issues](https://github.com/yourusername/your-repo-name/issues) page
+2. Create a new issue with detailed information
+3. Include steps to reproduce the problem
+
+---
+
+**Built with ❤️ using React, TypeScript, and Material-UI**

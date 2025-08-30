@@ -85,6 +85,8 @@ const Header: React.FC<HeaderProps> = ({ onMenuClick }) => {
         borderBottom: '1px solid',
         borderColor: 'divider',
         boxShadow: 'none',
+        width: { md: `calc(100% - 280px)` },
+        ml: { md: '280px' },
       }}
     >
       <Toolbar>

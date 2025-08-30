@@ -137,24 +137,6 @@ const createAppTheme = (mode: ThemeMode): Theme => {
           },
         },
       },
-      MuiDataGrid: {
-        styleOverrides: {
-          root: {
-            border: `1px solid ${colors.border}`,
-            backgroundColor: colors.surface,
-            '& .MuiDataGrid-cell': {
-              borderBottom: `1px solid ${colors.border}`,
-            },
-            '& .MuiDataGrid-columnHeaders': {
-              backgroundColor: colors.cardHover,
-              borderBottom: `2px solid ${colors.border}`,
-            },
-            '& .MuiDataGrid-row:hover': {
-              backgroundColor: colors.cardHover,
-            },
-          },
-        },
-      },
       MuiChip: {
         styleOverrides: {
           root: {

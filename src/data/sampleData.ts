@@ -1,84 +1,54 @@
-import { User, Referral, Reward, DashboardMetrics, MonthlyData } from '../types';
+import { User, Referral, Reward, DashboardMetrics, ChartData, MonthlyData } from '../types';
 
 export const sampleUsers: User[] = [
   {
     id: '1',
-    name: 'John Smith',
-    email: 'john.smith@example.com',
+    name: 'John Doe',
+    email: 'john@example.com',
     avatar: 'https://i.pravatar.cc/150?img=1',
     status: 'active',
     joinDate: '2024-01-15',
     totalReferrals: 12,
-    totalRewards: 240
+    totalRewards: 450
   },
   {
     id: '2',
-    name: 'Sarah Johnson',
-    email: 'sarah.johnson@example.com',
+    name: 'Jane Smith',
+    email: 'jane@example.com',
     avatar: 'https://i.pravatar.cc/150?img=2',
     status: 'active',
-    joinDate: '2024-02-03',
+    joinDate: '2024-02-20',
     totalReferrals: 8,
-    totalRewards: 160
+    totalRewards: 320
   },
   {
     id: '3',
-    name: 'Michael Brown',
-    email: 'michael.brown@example.com',
+    name: 'Mike Johnson',
+    email: 'mike@example.com',
     avatar: 'https://i.pravatar.cc/150?img=3',
-    status: 'active',
-    joinDate: '2024-01-28',
-    totalReferrals: 15,
-    totalRewards: 300
+    status: 'pending',
+    joinDate: '2024-03-10',
+    totalReferrals: 5,
+    totalRewards: 180
   },
   {
     id: '4',
-    name: 'Emily Davis',
-    email: 'emily.davis@example.com',
+    name: 'Sarah Wilson',
+    email: 'sarah@example.com',
     avatar: 'https://i.pravatar.cc/150?img=4',
-    status: 'inactive',
-    joinDate: '2024-03-10',
-    totalReferrals: 3,
-    totalRewards: 60
+    status: 'active',
+    joinDate: '2024-01-05',
+    totalReferrals: 15,
+    totalRewards: 600
   },
   {
     id: '5',
-    name: 'David Wilson',
-    email: 'david.wilson@example.com',
+    name: 'David Brown',
+    email: 'david@example.com',
     avatar: 'https://i.pravatar.cc/150?img=5',
-    status: 'active',
-    joinDate: '2024-02-18',
-    totalReferrals: 20,
-    totalRewards: 400
-  },
-  {
-    id: '6',
-    name: 'Lisa Anderson',
-    email: 'lisa.anderson@example.com',
-    avatar: 'https://i.pravatar.cc/150?img=6',
-    status: 'pending',
-    joinDate: '2024-04-05',
-    totalReferrals: 0,
-    totalRewards: 0
-  },
-  {
-    id: '7',
-    name: 'Robert Taylor',
-    email: 'robert.taylor@example.com',
-    avatar: 'https://i.pravatar.cc/150?img=7',
-    status: 'active',
-    joinDate: '2024-01-10',
-    totalReferrals: 18,
-    totalRewards: 360
-  },
-  {
-    id: '8',
-    name: 'Jennifer Martinez',
-    email: 'jennifer.martinez@example.com',
-    avatar: 'https://i.pravatar.cc/150?img=8',
-    status: 'active',
-    joinDate: '2024-03-22',
-    totalReferrals: 6,
+    status: 'inactive',
+    joinDate: '2024-02-15',
+    totalReferrals: 3,
     totalRewards: 120
   }
 ];
@@ -87,90 +57,57 @@ export const sampleReferrals: Referral[] = [
   {
     id: '1',
     referrerId: '1',
-    referrerName: 'John Smith',
-    referredId: '9',
-    referredName: 'Alex Thompson',
-    referredEmail: 'alex.thompson@example.com',
+    referrerName: 'John Doe',
+    referredId: '6',
+    referredName: 'Alice Cooper',
+    referredEmail: 'alice@example.com',
     status: 'completed',
-    date: '2024-04-01',
-    reward: 20
+    date: '2024-03-15',
+    reward: 50
   },
   {
     id: '2',
-    referrerId: '1',
-    referrerName: 'John Smith',
-    referredId: '10',
-    referredName: 'Maria Garcia',
-    referredEmail: 'maria.garcia@example.com',
+    referrerId: '2',
+    referrerName: 'Jane Smith',
+    referredId: '7',
+    referredName: 'Bob Wilson',
+    referredEmail: 'bob@example.com',
     status: 'pending',
-    date: '2024-04-03',
-    reward: 20
+    date: '2024-03-20',
+    reward: 50
   },
   {
     id: '3',
-    referrerId: '2',
-    referrerName: 'Sarah Johnson',
-    referredId: '11',
-    referredName: 'James Lee',
-    referredEmail: 'james.lee@example.com',
+    referrerId: '1',
+    referrerName: 'John Doe',
+    referredId: '8',
+    referredName: 'Carol Davis',
+    referredEmail: 'carol@example.com',
     status: 'completed',
-    date: '2024-04-02',
-    reward: 20
+    date: '2024-03-18',
+    reward: 50
   },
   {
     id: '4',
-    referrerId: '3',
-    referrerName: 'Michael Brown',
-    referredId: '12',
-    referredName: 'Emma White',
-    referredEmail: 'emma.white@example.com',
-    status: 'completed',
-    date: '2024-04-01',
-    reward: 20
-  },
-  {
-    id: '5',
-    referrerId: '3',
-    referrerName: 'Michael Brown',
-    referredId: '13',
-    referredName: 'Daniel Clark',
-    referredEmail: 'daniel.clark@example.com',
+    referrerId: '4',
+    referrerName: 'Sarah Wilson',
+    referredId: '9',
+    referredName: 'Eve Johnson',
+    referredEmail: 'eve@example.com',
     status: 'cancelled',
-    date: '2024-04-04',
+    date: '2024-03-22',
     reward: 0
   },
   {
-    id: '6',
-    referrerId: '5',
-    referrerName: 'David Wilson',
-    referredId: '14',
-    referredName: 'Sophie Turner',
-    referredEmail: 'sophie.turner@example.com',
+    id: '5',
+    referrerId: '2',
+    referrerName: 'Jane Smith',
+    referredId: '10',
+    referredName: 'Frank Miller',
+    referredEmail: 'frank@example.com',
     status: 'completed',
-    date: '2024-04-05',
-    reward: 20
-  },
-  {
-    id: '7',
-    referrerId: '7',
-    referrerName: 'Robert Taylor',
-    referredId: '15',
-    referredName: 'Chris Evans',
-    referredEmail: 'chris.evans@example.com',
-    status: 'pending',
-    date: '2024-04-06',
-    reward: 20
-  },
-  {
-    id: '8',
-    referrerId: '1',
-    referrerName: 'John Smith',
-    referredId: '16',
-    referredName: 'Rachel Green',
-    referredEmail: 'rachel.green@example.com',
-    status: 'completed',
-    date: '2024-04-07',
-    reward: 20
+    date: '2024-03-25',
+    reward: 50
   }
 ];
 
@@ -178,113 +115,83 @@ export const sampleRewards: Reward[] = [
   {
     id: '1',
     userId: '1',
-    userName: 'John Smith',
+    userName: 'John Doe',
     type: 'referral',
-    amount: 20,
+    amount: 50,
     status: 'paid',
-    date: '2024-04-01',
-    description: 'Referral bonus for Alex Thompson'
+    date: '2024-03-15',
+    description: 'Referral bonus for Alice Cooper'
   },
   {
     id: '2',
     userId: '2',
-    userName: 'Sarah Johnson',
+    userName: 'Jane Smith',
     type: 'referral',
-    amount: 20,
-    status: 'paid',
-    date: '2024-04-02',
-    description: 'Referral bonus for James Lee'
+    amount: 50,
+    status: 'pending',
+    date: '2024-03-20',
+    description: 'Referral bonus for Bob Wilson'
   },
   {
     id: '3',
-    userId: '3',
-    userName: 'Michael Brown',
-    type: 'referral',
-    amount: 20,
+    userId: '1',
+    userName: 'John Doe',
+    type: 'bonus',
+    amount: 25,
     status: 'paid',
-    date: '2024-04-01',
-    description: 'Referral bonus for Emma White'
+    date: '2024-03-18',
+    description: 'Monthly activity bonus'
   },
   {
     id: '4',
-    userId: '5',
-    userName: 'David Wilson',
-    type: 'referral',
-    amount: 20,
+    userId: '4',
+    userName: 'Sarah Wilson',
+    type: 'promotion',
+    amount: 100,
     status: 'paid',
-    date: '2024-04-05',
-    description: 'Referral bonus for Sophie Turner'
+    date: '2024-03-22',
+    description: 'Promotional campaign reward'
   },
   {
     id: '5',
-    userId: '1',
-    userName: 'John Smith',
+    userId: '2',
+    userName: 'Jane Smith',
     type: 'referral',
-    amount: 20,
-    status: 'paid',
-    date: '2024-04-07',
-    description: 'Referral bonus for Rachel Green'
-  },
-  {
-    id: '6',
-    userId: '3',
-    userName: 'Michael Brown',
-    type: 'bonus',
     amount: 50,
     status: 'paid',
-    date: '2024-04-08',
-    description: 'Monthly performance bonus'
-  },
-  {
-    id: '7',
-    userId: '7',
-    userName: 'Robert Taylor',
-    type: 'promotion',
-    amount: 100,
-    status: 'pending',
-    date: '2024-04-09',
-    description: 'Spring promotion campaign'
-  },
-  {
-    id: '8',
-    userId: '2',
-    userName: 'Sarah Johnson',
-    type: 'bonus',
-    amount: 30,
-    status: 'paid',
-    date: '2024-04-10',
-    description: 'Early adopter bonus'
+    date: '2024-03-25',
+    description: 'Referral bonus for Frank Miller'
   }
 ];
 
 export const dashboardMetrics: DashboardMetrics = {
-  totalUsers: 8,
-  activeUsers: 6,
-  totalReferrals: 8,
+  totalUsers: 1250,
+  activeUsers: 890,
+  totalReferrals: 456,
   totalRewards: 280,
   monthlyGrowth: 15.5,
-  conversionRate: 75.0
+  referralGrowth: 75.0
 };
 
 export const monthlyData: MonthlyData[] = [
-  { month: 'Jan', users: 120, referrals: 45, rewards: 900 },
-  { month: 'Feb', users: 180, referrals: 67, rewards: 1340 },
-  { month: 'Mar', users: 220, referrals: 89, rewards: 1780 },
-  { month: 'Apr', users: 280, referrals: 112, rewards: 2240 },
-  { month: 'May', users: 320, referrals: 134, rewards: 2680 },
-  { month: 'Jun', users: 380, referrals: 156, rewards: 3120 }
+  { month: 'Jan', users: 120, referrals: 45, rewards: 280 },
+  { month: 'Feb', users: 180, referrals: 52, rewards: 320 },
+  { month: 'Mar', users: 220, referrals: 78, rewards: 450 },
+  { month: 'Apr', users: 280, referrals: 95, rewards: 520 },
+  { month: 'May', users: 320, referrals: 120, rewards: 680 },
+  { month: 'Jun', users: 380, referrals: 145, rewards: 820 }
 ];
 
-export const topReferrers = [
-  { name: 'David Wilson', referrals: 20, rewards: 400 },
-  { name: 'Robert Taylor', referrals: 18, rewards: 360 },
-  { name: 'Michael Brown', referrals: 15, rewards: 300 },
-  { name: 'John Smith', referrals: 12, rewards: 240 },
-  { name: 'Sarah Johnson', referrals: 8, rewards: 160 }
+export const rewardDistribution: ChartData[] = [
+  { name: 'Referral', value: 65, color: '#6366f1' },
+  { name: 'Bonus', value: 20, color: '#10b981' },
+  { name: 'Promotion', value: 15, color: '#f59e0b' }
 ];
 
-export const rewardDistribution = [
-  { type: 'Referral Bonuses', amount: 160, percentage: 57.1 },
-  { type: 'Performance Bonuses', amount: 80, percentage: 28.6 },
-  { type: 'Promotional Rewards', amount: 40, percentage: 14.3 }
+export const topReferrers: ChartData[] = [
+  { name: 'John Doe', value: 12, color: '#6366f1' },
+  { name: 'Sarah Wilson', value: 10, color: '#10b981' },
+  { name: 'Jane Smith', value: 8, color: '#f59e0b' },
+  { name: 'Mike Johnson', value: 6, color: '#ef4444' },
+  { name: 'David Brown', value: 4, color: '#8b5cf6' }
 ];

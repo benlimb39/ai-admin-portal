@@ -5,33 +5,25 @@ import {
   CardContent,
   Typography,
   Switch,
-  FormControlLabel,
   FormControl,
   InputLabel,
   Select,
   MenuItem,
   Divider,
   Button,
-  Grid,
-  Chip,
   Avatar,
   List,
   ListItem,
   ListItemText,
   ListItemIcon,
   ListItemSecondaryAction,
-  TextField,
-  Alert,
-  Snackbar,
-  IconButton,
-  Tooltip
+  Snackbar
 } from '@mui/material';
 import {
   Palette as PaletteIcon,
   Notifications as NotificationsIcon,
   Visibility as VisibilityIcon,
   Language as LanguageIcon,
-  Schedule as ScheduleIcon,
   Save as SaveIcon,
   Refresh as RefreshIcon,
   DarkMode as DarkModeIcon,
@@ -43,7 +35,7 @@ import { useTheme } from '../../context/ThemeContext';
 import { ThemeMode, UserSettings } from '../../types';
 
 const Settings: React.FC = () => {
-  const { themeMode, setThemeMode, themeSettings, updateThemeSettings } = useTheme();
+  const { themeMode, setThemeMode, themeSettings } = useTheme();
   const [settings, setSettings] = useState<UserSettings>({
     theme: themeSettings,
     notifications: {
@@ -70,13 +62,16 @@ const Settings: React.FC = () => {
   };
 
   const handleSettingChange = (category: keyof UserSettings, key: string, value: any) => {
-    setSettings(prev => ({
-      ...prev,
-      [category]: {
-        ...prev[category],
-        [key]: value,
-      },
-    }));
+    setSettings(prev => {
+      const categorySettings = prev[category] as any;
+      return {
+        ...prev,
+        [category]: {
+          ...categorySettings,
+          [key]: value,
+        },
+      };
+    });
   };
 
   const handleSaveSettings = () => {
@@ -181,258 +176,250 @@ const Settings: React.FC = () => {
         </Box>
       </Box>
 
-      <Grid container spacing={3}>
+      <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', md: 'repeat(2, 1fr)' }, gap: 3 }}>
         {/* Theme Settings */}
-        <Grid item xs={12} md={6}>
-          <Card>
-            <CardContent>
-              <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
-                <PaletteIcon sx={{ mr: 1, color: 'primary.main' }} />
-                <Typography variant="h6" sx={{ fontWeight: 'bold' }}>
-                  Theme
-                </Typography>
-              </Box>
-              <Typography variant="body2" sx={{ color: 'text.secondary', mb: 3 }}>
-                Choose your preferred theme for the admin portal
+        <Card>
+          <CardContent>
+            <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
+              <PaletteIcon sx={{ mr: 1, color: 'primary.main' }} />
+              <Typography variant="h6" sx={{ fontWeight: 'bold' }}>
+                Theme
               </Typography>
-              
-              <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-                {themeOptions.map((option) => (
-                  <Card
-                    key={option.mode}
-                    sx={{
-                      cursor: 'pointer',
-                      border: themeMode === option.mode ? 2 : 1,
-                      borderColor: themeMode === option.mode ? 'primary.main' : 'divider',
-                      backgroundColor: themeMode === option.mode ? 'action.selected' : 'background.paper',
-                      '&:hover': {
-                        borderColor: 'primary.main',
-                        backgroundColor: 'action.hover',
-                      },
-                    }}
-                    onClick={() => handleThemeChange(option.mode)}
-                  >
-                    <CardContent sx={{ py: 2 }}>
-                      <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                        <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-                          <Avatar
-                            sx={{
-                              backgroundColor: option.color,
-                              color: themeMode === option.mode ? option.activeColor : 'text.secondary',
-                              width: 40,
-                              height: 40,
-                            }}
-                          >
-                            {option.icon}
-                          </Avatar>
-                          <Box>
-                            <Typography variant="subtitle1" sx={{ fontWeight: 'bold' }}>
-                              {option.name}
-                            </Typography>
-                            <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-                              {option.description}
-                            </Typography>
-                          </Box>
+            </Box>
+            <Typography variant="body2" sx={{ color: 'text.secondary', mb: 3 }}>
+              Choose your preferred theme for the admin portal
+            </Typography>
+            
+            <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+              {themeOptions.map((option) => (
+                <Card
+                  key={option.mode}
+                  sx={{
+                    cursor: 'pointer',
+                    border: themeMode === option.mode ? 2 : 1,
+                    borderColor: themeMode === option.mode ? 'primary.main' : 'divider',
+                    backgroundColor: themeMode === option.mode ? 'action.selected' : 'background.paper',
+                    '&:hover': {
+                      borderColor: 'primary.main',
+                      backgroundColor: 'action.hover',
+                    },
+                  }}
+                  onClick={() => handleThemeChange(option.mode)}
+                >
+                  <CardContent sx={{ py: 2 }}>
+                    <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                      <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+                        <Avatar
+                          sx={{
+                            backgroundColor: option.color,
+                            color: themeMode === option.mode ? option.activeColor : 'text.secondary',
+                            width: 40,
+                            height: 40,
+                          }}
+                        >
+                          {option.icon}
+                        </Avatar>
+                        <Box>
+                          <Typography variant="subtitle1" sx={{ fontWeight: 'bold' }}>
+                            {option.name}
+                          </Typography>
+                          <Typography variant="body2" sx={{ color: 'text.secondary' }}>
+                            {option.description}
+                          </Typography>
                         </Box>
-                        {themeMode === option.mode && (
-                          <CheckIcon color="primary" />
-                        )}
                       </Box>
-                    </CardContent>
-                  </Card>
-                ))}
-              </Box>
-            </CardContent>
-          </Card>
-        </Grid>
+                      {themeMode === option.mode && (
+                        <CheckIcon color="primary" />
+                      )}
+                    </Box>
+                  </CardContent>
+                </Card>
+              ))}
+            </Box>
+          </CardContent>
+        </Card>
 
         {/* Notifications */}
-        <Grid item xs={12} md={6}>
-          <Card>
-            <CardContent>
-              <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
-                <NotificationsIcon sx={{ mr: 1, color: 'primary.main' }} />
-                <Typography variant="h6" sx={{ fontWeight: 'bold' }}>
-                  Notifications
-                </Typography>
-              </Box>
-              <Typography variant="body2" sx={{ color: 'text.secondary', mb: 3 }}>
-                Configure how you receive notifications
+        <Card>
+          <CardContent>
+            <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
+              <NotificationsIcon sx={{ mr: 1, color: 'primary.main' }} />
+              <Typography variant="h6" sx={{ fontWeight: 'bold' }}>
+                Notifications
               </Typography>
+            </Box>
+            <Typography variant="body2" sx={{ color: 'text.secondary', mb: 3 }}>
+              Configure how you receive notifications
+            </Typography>
 
-              <List>
-                <ListItem>
-                  <ListItemIcon>
-                    <NotificationsIcon />
-                  </ListItemIcon>
-                  <ListItemText
-                    primary="Email Notifications"
-                    secondary="Receive updates via email"
+            <List>
+              <ListItem>
+                <ListItemIcon>
+                  <NotificationsIcon />
+                </ListItemIcon>
+                <ListItemText
+                  primary="Email Notifications"
+                  secondary="Receive updates via email"
+                />
+                <ListItemSecondaryAction>
+                  <Switch
+                    edge="end"
+                    checked={settings.notifications.email}
+                    onChange={(e) => handleSettingChange('notifications', 'email', e.target.checked)}
                   />
-                  <ListItemSecondaryAction>
-                    <Switch
-                      edge="end"
-                      checked={settings.notifications.email}
-                      onChange={(e) => handleSettingChange('notifications', 'email', e.target.checked)}
-                    />
-                  </ListItemSecondaryAction>
-                </ListItem>
-                <Divider />
-                <ListItem>
-                  <ListItemIcon>
-                    <NotificationsIcon />
-                  </ListItemIcon>
-                  <ListItemText
-                    primary="Push Notifications"
-                    secondary="Receive browser notifications"
+                </ListItemSecondaryAction>
+              </ListItem>
+              <Divider />
+              <ListItem>
+                <ListItemIcon>
+                  <NotificationsIcon />
+                </ListItemIcon>
+                <ListItemText
+                  primary="Push Notifications"
+                  secondary="Receive browser notifications"
+                />
+                <ListItemSecondaryAction>
+                  <Switch
+                    edge="end"
+                    checked={settings.notifications.push}
+                    onChange={(e) => handleSettingChange('notifications', 'push', e.target.checked)}
                   />
-                  <ListItemSecondaryAction>
-                    <Switch
-                      edge="end"
-                      checked={settings.notifications.push}
-                      onChange={(e) => handleSettingChange('notifications', 'push', e.target.checked)}
-                    />
-                  </ListItemSecondaryAction>
-                </ListItem>
-                <Divider />
-                <ListItem>
-                  <ListItemIcon>
-                    <NotificationsIcon />
-                  </ListItemIcon>
-                  <ListItemText
-                    primary="SMS Notifications"
-                    secondary="Receive updates via SMS"
+                </ListItemSecondaryAction>
+              </ListItem>
+              <Divider />
+              <ListItem>
+                <ListItemIcon>
+                  <NotificationsIcon />
+                </ListItemIcon>
+                <ListItemText
+                  primary="SMS Notifications"
+                  secondary="Receive updates via SMS"
+                />
+                <ListItemSecondaryAction>
+                  <Switch
+                    edge="end"
+                    checked={settings.notifications.sms}
+                    onChange={(e) => handleSettingChange('notifications', 'sms', e.target.checked)}
                   />
-                  <ListItemSecondaryAction>
-                    <Switch
-                      edge="end"
-                      checked={settings.notifications.sms}
-                      onChange={(e) => handleSettingChange('notifications', 'sms', e.target.checked)}
-                    />
-                  </ListItemSecondaryAction>
-                </ListItem>
-              </List>
-            </CardContent>
-          </Card>
-        </Grid>
+                </ListItemSecondaryAction>
+              </ListItem>
+            </List>
+          </CardContent>
+        </Card>
 
         {/* Display Settings */}
-        <Grid item xs={12} md={6}>
-          <Card>
-            <CardContent>
-              <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
-                <VisibilityIcon sx={{ mr: 1, color: 'primary.main' }} />
-                <Typography variant="h6" sx={{ fontWeight: 'bold' }}>
-                  Display
-                </Typography>
-              </Box>
-              <Typography variant="body2" sx={{ color: 'text.secondary', mb: 3 }}>
-                Customize the display settings
+        <Card>
+          <CardContent>
+            <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
+              <VisibilityIcon sx={{ mr: 1, color: 'primary.main' }} />
+              <Typography variant="h6" sx={{ fontWeight: 'bold' }}>
+                Display
               </Typography>
+            </Box>
+            <Typography variant="body2" sx={{ color: 'text.secondary', mb: 3 }}>
+              Customize the display settings
+            </Typography>
 
-              <List>
-                <ListItem>
-                  <ListItemIcon>
-                    <VisibilityIcon />
-                  </ListItemIcon>
-                  <ListItemText
-                    primary="Compact Mode"
-                    secondary="Reduce spacing for more content"
+            <List>
+              <ListItem>
+                <ListItemIcon>
+                  <VisibilityIcon />
+                </ListItemIcon>
+                <ListItemText
+                  primary="Compact Mode"
+                  secondary="Reduce spacing for more content"
+                />
+                <ListItemSecondaryAction>
+                  <Switch
+                    edge="end"
+                    checked={settings.display.compactMode}
+                    onChange={(e) => handleSettingChange('display', 'compactMode', e.target.checked)}
                   />
-                  <ListItemSecondaryAction>
-                    <Switch
-                      edge="end"
-                      checked={settings.display.compactMode}
-                      onChange={(e) => handleSettingChange('display', 'compactMode', e.target.checked)}
-                    />
-                  </ListItemSecondaryAction>
-                </ListItem>
-                <Divider />
-                <ListItem>
-                  <ListItemIcon>
-                    <VisibilityIcon />
-                  </ListItemIcon>
-                  <ListItemText
-                    primary="Show Avatars"
-                    secondary="Display user avatars in lists"
+                </ListItemSecondaryAction>
+              </ListItem>
+              <Divider />
+              <ListItem>
+                <ListItemIcon>
+                  <VisibilityIcon />
+                </ListItemIcon>
+                <ListItemText
+                  primary="Show Avatars"
+                  secondary="Display user avatars in lists"
+                />
+                <ListItemSecondaryAction>
+                  <Switch
+                    edge="end"
+                    checked={settings.display.showAvatars}
+                    onChange={(e) => handleSettingChange('display', 'showAvatars', e.target.checked)}
                   />
-                  <ListItemSecondaryAction>
-                    <Switch
-                      edge="end"
-                      checked={settings.display.showAvatars}
-                      onChange={(e) => handleSettingChange('display', 'showAvatars', e.target.checked)}
-                    />
-                  </ListItemSecondaryAction>
-                </ListItem>
-                <Divider />
-                <ListItem>
-                  <ListItemIcon>
-                    <VisibilityIcon />
-                  </ListItemIcon>
-                  <ListItemText
-                    primary="Auto Refresh"
-                    secondary="Automatically refresh data"
+                </ListItemSecondaryAction>
+              </ListItem>
+              <Divider />
+              <ListItem>
+                <ListItemIcon>
+                  <VisibilityIcon />
+                </ListItemIcon>
+                <ListItemText
+                  primary="Auto Refresh"
+                  secondary="Automatically refresh data"
+                />
+                <ListItemSecondaryAction>
+                  <Switch
+                    edge="end"
+                    checked={settings.display.autoRefresh}
+                    onChange={(e) => handleSettingChange('display', 'autoRefresh', e.target.checked)}
                   />
-                  <ListItemSecondaryAction>
-                    <Switch
-                      edge="end"
-                      checked={settings.display.autoRefresh}
-                      onChange={(e) => handleSettingChange('display', 'autoRefresh', e.target.checked)}
-                    />
-                  </ListItemSecondaryAction>
-                </ListItem>
-              </List>
-            </CardContent>
-          </Card>
-        </Grid>
+                </ListItemSecondaryAction>
+              </ListItem>
+            </List>
+          </CardContent>
+        </Card>
 
         {/* Language & Timezone */}
-        <Grid item xs={12} md={6}>
-          <Card>
-            <CardContent>
-              <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
-                <LanguageIcon sx={{ mr: 1, color: 'primary.main' }} />
-                <Typography variant="h6" sx={{ fontWeight: 'bold' }}>
-                  Language & Timezone
-                </Typography>
-              </Box>
-              <Typography variant="body2" sx={{ color: 'text.secondary', mb: 3 }}>
-                Set your preferred language and timezone
+        <Card>
+          <CardContent>
+            <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
+              <LanguageIcon sx={{ mr: 1, color: 'primary.main' }} />
+              <Typography variant="h6" sx={{ fontWeight: 'bold' }}>
+                Language & Timezone
               </Typography>
+            </Box>
+            <Typography variant="body2" sx={{ color: 'text.secondary', mb: 3 }}>
+              Set your preferred language and timezone
+            </Typography>
 
-              <FormControl fullWidth sx={{ mb: 3 }}>
-                <InputLabel>Language</InputLabel>
-                <Select
-                  value={settings.language}
-                  label="Language"
-                  onChange={(e) => handleSettingChange('language', '', e.target.value)}
-                >
-                  {languages.map((lang) => (
-                    <MenuItem key={lang.code} value={lang.code}>
-                      {lang.name}
-                    </MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
+            <FormControl fullWidth sx={{ mb: 3 }}>
+              <InputLabel>Language</InputLabel>
+              <Select
+                value={settings.language}
+                label="Language"
+                onChange={(e) => handleSettingChange('language', '', e.target.value)}
+              >
+                {languages.map((lang) => (
+                  <MenuItem key={lang.code} value={lang.code}>
+                    {lang.name}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
 
-              <FormControl fullWidth>
-                <InputLabel>Timezone</InputLabel>
-                <Select
-                  value={settings.timezone}
-                  label="Timezone"
-                  onChange={(e) => handleSettingChange('timezone', '', e.target.value)}
-                >
-                  {timezones.map((tz) => (
-                    <MenuItem key={tz.value} value={tz.value}>
-                      {tz.label}
-                    </MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
-            </CardContent>
-          </Card>
-        </Grid>
-      </Grid>
+            <FormControl fullWidth>
+              <InputLabel>Timezone</InputLabel>
+              <Select
+                value={settings.timezone}
+                label="Timezone"
+                onChange={(e) => handleSettingChange('timezone', '', e.target.value)}
+              >
+                {timezones.map((tz) => (
+                  <MenuItem key={tz.value} value={tz.value}>
+                    {tz.label}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+          </CardContent>
+        </Card>
+      </Box>
 
       {/* Snackbar for notifications */}
       <Snackbar
